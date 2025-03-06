@@ -12,7 +12,7 @@ export default function Hero() {
             The Economic Society Presents
           </div>
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            IQTISADIYYAT <span className="text-[#2662d9]">2024</span>
+            IQTISADIYYAT <span className="text-[#2662d9]">2025</span>
           </h1>
           <p className="max-w-[700px] text-[#6f6f7b] md:text-xl">
             The premier economics conclave that brings together thought leaders,
