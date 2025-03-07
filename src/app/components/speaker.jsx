@@ -28,7 +28,7 @@ const speakers = [
   
 export default function Speakers() {
   return (
-    <section id="speakers" className="w-full flex justify-center bg-[#f4f4f5]/50 dark:bg-[#121212]/50  py-16 md:py-24">
+    <section id="speakers" className="w-full flex justify-center bg-[#f4f4f5]/50 dark:bg-[#121212] py-16 md:py-24">
       <div className="mx-auto px-4 container space-y-12">
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="inline-block rounded-lg bg-[#2662d9]/10 dark:bg-[#2662d9]/20 px-3 py-1 text-sm text-[#2662d9] dark:text-[#6b9eff]">
