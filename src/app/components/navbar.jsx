@@ -56,14 +56,14 @@ export default function Navbar() {
               <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
                 Home
               </Link>
-              <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
-                About
-              </Link>
-              <Link href="/schedule" className="text-sm font-medium transition-colors hover:text-primary">
-                Schedule
-              </Link>
-              <Link href="/speakers" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link href="#speakers" className="text-sm font-medium transition-colors hover:text-primary">
                 Speakers
+              </Link>
+              <Link href="#experience" className="text-sm font-medium transition-colors hover:text-primary">
+                Experience
+              </Link>
+              <Link href="#schedule" className="text-sm font-medium transition-colors hover:text-primary">
+                Schedule
               </Link>
             </nav>
 
