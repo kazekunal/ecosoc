@@ -83,8 +83,8 @@ export default function Experience() {
 
         <Tabs defaultValue="games" className="w-full max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="games">Interactive Games</TabsTrigger>
-            <TabsTrigger value="food">Culinary Experience</TabsTrigger>
+            <TabsTrigger value="games">UnStop Games</TabsTrigger>
+            <TabsTrigger value="food">Offline Games</TabsTrigger>
           </TabsList>
           <TabsContent value="games" className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

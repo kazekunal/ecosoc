@@ -21,7 +21,7 @@ export default function Hero() {
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
               <Calendar className="h-4 w-4 text-[#2662d9] dark:text-[#6b9eff]" />
-              <span>April 15-16, 2024</span>
+              <span>April 5-6, 2025</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
               <Clock className="h-4 w-4 text-[#2662d9] dark:text-[#6b9eff]" />

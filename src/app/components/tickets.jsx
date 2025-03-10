@@ -1,13 +1,19 @@
+'use client'
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useCart } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
 
-const tickets = [
+// Define tickets array inside the component
+const ticketsData = [
     {
-      name: "Student Pass",
-      price: "999",
+      id: "single-pass", // Added unique ID for each ticket
+      name: "Single Pass",
+      price: 250, // Changed to number for calculations
       features: [
+        "Includes Access to a single person",
         "Access to all keynote sessions",
         "Participation in workshops",
         "Lunch and refreshments",
@@ -17,13 +23,14 @@ const tickets = [
       featured: false,
     },
     {
-      name: "Full Access Pass",
-      price: "2499",
+      id: "pair-pass", // Added unique ID for each ticket
+      name: "Pair Pass",
+      price: 450, // Changed to number for calculations
       features: [
+        "Includes Access to 2 people",
         "Access to all keynote sessions",
-        "Priority seating for main events",
         "All workshops and breakout sessions",
-        "Premium lunch and refreshments",
+        "Lunch and refreshments",
         "Economics games access",
         "Networking reception",
         "Digital certificate of participation",
@@ -31,21 +38,39 @@ const tickets = [
       featured: true,
     },
     {
-      name: "Professional Pass",
-      price: "3999",
+      id: "party-pass", // Added unique ID for each ticket
+      name: "Party Pass",
+      price: 900, // Changed to number for calculations
       features: [
-        "All Full Access Pass benefits",
-        "Exclusive dinner with speakers",
-        "One-on-one mentoring session",
-        "Premium gift bag",
-        "1-year subscription to Economics Society journal",
-        "Recording access post-event",
+        "Includes Access to 4 people",
+        "Access to all keynote sessions",
+        "All workshops and breakout sessions",
+        "Lunch and refreshments",
+        "Economics games access",
+        "Networking reception",
+        "Digital certificate of participation",
       ],
       featured: false,
     },
   ]
 
 export default function Tickets() {
+    const { addItem } = useCart();
+    const router = useRouter();
+    
+    const handleBuyTicket = (selectedTicket) => {
+      // Add the ticket to cart
+      addItem({
+        id: selectedTicket.id,
+        name: selectedTicket.name,
+        price: selectedTicket.price,
+        quantity: 1
+      });
+      
+      // Redirect to payment page
+      router.push('/cart');
+    };
+
   return (
     <section id="tickets" className="dark:bg-black w-full flex justify-center py-16 md:py-24 relative overflow-hidden">
       <div className="mx-auto px-4 container relative z-10 space-y-12">
@@ -57,12 +82,12 @@ export default function Tickets() {
             Secure Your Spot Today
           </h2>
           <p className="max-w-[700px] text-[#2662d9] md:text-xl">
-            Don't miss this opportunity to be part of IQTISADIYYAT 2024.
+            Don't miss this opportunity to be part of IQTISADIYYAT 2025.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {tickets.map((ticket, index) => (
+          {ticketsData.map((ticket, index) => (
             <Card
               key={index}
               className={`overflow-hidden ${
@@ -78,7 +103,7 @@ export default function Tickets() {
                 <h3 className="text-2xl font-bold">{ticket.name}</h3>
                 <div className="mt-4 flex items-baseline justify-center">
                   <span className="text-4xl font-extrabold">₹{ticket.price}</span>
-                  <span className="ml-1 text-[#2662d9]">/person</span>
+                  <span className="ml-1 text-[#2662d9]"></span>
                 </div>
                 <ul className="mt-6 space-y-3 text-left">
                   {ticket.features.map((feature, i) => (
@@ -92,9 +117,9 @@ export default function Tickets() {
                   className="mt-8 w-full"
                   size="lg"
                   variant={ticket.featured ? "default" : "outline"}
-                  asChild
+                  onClick={() => handleBuyTicket(ticket)}
                 >
-                  <Link href="/payment">Buy Ticket</Link>
+                  Buy Ticket
                 </Button>
               </CardContent>
             </Card>
@@ -103,7 +128,7 @@ export default function Tickets() {
 
         <div className="text-center mt-8">
           <p className="text-[#2662d9]">
-            Group discounts available for 5+ tickets.{" "}
+            Group discounts available for 10+ tickets.{" "}
             <Link href="#" className="text-[#2662d9] underline">
               Contact us
             </Link>{" "}

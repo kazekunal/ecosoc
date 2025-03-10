@@ -115,8 +115,8 @@ export default function Schedule() {
 
         <Tabs defaultValue="day1" className="w-full max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="day1">Day 1 (April 15)</TabsTrigger>
-            <TabsTrigger value="day2">Day 2 (April 16)</TabsTrigger>
+            <TabsTrigger value="day1">Day 1 (April 5)</TabsTrigger>
+            <TabsTrigger value="day2">Day 2 (April 6)</TabsTrigger>
           </TabsList>
           <TabsContent value="day1" className="pt-6 space-y-4">
             {schedule.day1.map((item, index) => (

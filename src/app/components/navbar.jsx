@@ -60,7 +60,7 @@ export default function Navbar() {
                 Speakers
               </Link>
               <Link href="#experience" className="text-sm font-medium transition-colors hover:text-primary">
-                Experience
+                Games
               </Link>
               <Link href="#schedule" className="text-sm font-medium transition-colors hover:text-primary">
                 Schedule
@@ -85,7 +85,7 @@ export default function Navbar() {
 
               {/* Venue Map */}
               <Button variant="ghost" size="icon" asChild className="hidden md:flex">
-                <Link href="/venues">
+                <Link href="https://maps.app.goo.gl/PbAS3jH1dHWgwYvt9" target="_blank">
                   <MapPin className="h-5 w-5" />
                   <span className="sr-only">Venue Map</span>
                 </Link>
@@ -93,7 +93,7 @@ export default function Navbar() {
 
               {/* Tickets */}
               <Button variant="ghost" size="icon" asChild className="relative hidden md:flex">
-                <Link href="/tickets">
+                <Link href="/cart">
                   <Ticket color="red" className="h-5 w-5 fill" />
                   <Badge
                     variant="secondary"
@@ -160,7 +160,7 @@ export default function Navbar() {
               {/* Bottom Icons Section */}
               <div className={`flex justify-around items-center border-t border-${theme === "dark" ? "zinc-700" : "gray-200"} mt-4 pt-4`}>
                 <Link 
-                  href="/tickets" 
+                  href="/cart" 
                   className={`flex flex-col items-center hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"} p-2 rounded-lg`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -168,7 +168,7 @@ export default function Navbar() {
                   <span className="text-xs">Tickets</span>
                 </Link>
                 <Link 
-                  href="/venues" 
+                  href="https://maps.app.goo.gl/PbAS3jH1dHWgwYvt9" 
                   className={`flex flex-col items-center hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"} p-2 rounded-lg`}
                   onClick={() => setIsMenuOpen(false)}
                 >
