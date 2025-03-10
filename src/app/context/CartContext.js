@@ -1,99 +1,116 @@
 "use client"
-import { createContext, useContext, useState, useEffect } from 'react';
 
-const CartContext = createContext();
+import React, { createContext, useContext, useState, useEffect } from "react"
+
+const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
-  const [customerId, setCustomerId] = useState(() => {
-    return localStorage.getItem('customerId') || 'CUST_' + Math.random().toString(36).substring(2, 10);
-  });
+  // Initialize with empty values first
+  const [items, setItems] = useState([])
+  const [customerId, setCustomerId] = useState('')
+  const [isClient, setIsClient] = useState(false)
+
+  // Use useEffect to access localStorage after component mounts (client-side only)
+  useEffect(() => {
+    // Set a flag indicating we're now client-side
+    setIsClient(true)
+    
+    // Now we can safely access localStorage
+    const storedItems = localStorage.getItem('cartItems')
+    if (storedItems) {
+      setItems(JSON.parse(storedItems))
+    }
+    
+    // Get or generate a new customer ID
+    const storedCustomerId = localStorage.getItem('customerId')
+    if (storedCustomerId) {
+      setCustomerId(storedCustomerId)
+    } else {
+      const newCustomerId = 'CUST_' + Math.random().toString(36).substring(2, 10)
+      setCustomerId(newCustomerId)
+      localStorage.setItem('customerId', newCustomerId)
+    }
+  }, [])
 
   // Calculate total
-  const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-  // Load cart from localStorage on initial load
-  useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      try {
-        setItems(JSON.parse(savedCart));
-      } catch (e) {
-        console.error('Error parsing cart from localStorage', e);
-      }
-    }
-  }, []);
-
-  // Store customerId in localStorage
-  useEffect(() => {
-    localStorage.setItem('customerId', customerId);
-  }, [customerId]);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(items));
-  }, [items]);
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   // Add item to cart
-  const addItem = (newItem) => {
-    setItems(prevItems => {
-      // Check if item already exists in cart
-      const existingItemIndex = prevItems.findIndex(item => item.id === newItem.id);
+  const addItem = (item) => {
+    if (!isClient) return // Don't proceed if not client-side yet
+    
+    setItems((prevItems) => {
+      const existingItem = prevItems.find((i) => i.id === item.id)
+      let newItems
 
-      if (existingItemIndex >= 0) {
-        // Item exists, update quantity
-        const updatedItems = [...prevItems];
-        updatedItems[existingItemIndex] = {
-          ...updatedItems[existingItemIndex],
-          quantity: updatedItems[existingItemIndex].quantity + newItem.quantity
-        };
-        return updatedItems;
+      if (existingItem) {
+        newItems = prevItems.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        )
       } else {
-        // Item doesn't exist, add it
-        return [...prevItems, newItem];
+        newItems = [...prevItems, { ...item, quantity: 1 }]
       }
-    });
-  };
 
-  // Update item quantity
+      // Save to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(newItems))
+      return newItems
+    })
+  }
+
+  // Update quantity
   const updateQuantity = (id, quantity) => {
-    if (quantity <= 0) {
-      removeItem(id);
-      return;
-    }
-
-    setItems(prevItems => 
-      prevItems.map(item => 
-        item.id === id ? { ...item, quantity } : item
+    if (!isClient) return // Don't proceed if not client-side yet
+    
+    setItems((prevItems) => {
+      const newItems = prevItems.map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
       )
-    );
-  };
+      
+      // Save to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(newItems))
+      return newItems
+    })
+  }
 
   // Remove item from cart
   const removeItem = (id) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
-  };
+    if (!isClient) return // Don't proceed if not client-side yet
+    
+    setItems((prevItems) => {
+      const newItems = prevItems.filter((item) => item.id !== id)
+      
+      // Save to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(newItems))
+      return newItems
+    })
+  }
 
   // Clear cart
   const clearCart = () => {
-    setItems([]);
-  };
+    if (!isClient) return // Don't proceed if not client-side yet
+    
+    setItems([])
+    localStorage.setItem('cartItems', JSON.stringify([]))
+  }
 
   return (
-    <CartContext.Provider value={{ 
-      items, 
-      total, 
-      customerId,
-      addItem,
-      updateQuantity, 
-      removeItem, 
-      clearCart 
-    }}>
+    <CartContext.Provider
+      value={{
+        items,
+        total,
+        customerId,
+        addItem,
+        updateQuantity,
+        removeItem,
+        clearCart,
+        isClient
+      }}
+    >
       {children}
     </CartContext.Provider>
-  );
+  )
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  return useContext(CartContext)
 }
