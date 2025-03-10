@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation'; // Use 'next/navigation' instead of 'next/router' in App Router
+import { useRouter } from 'next/navigation';
 
 export default function FailedPage() {
   const router = useRouter();
@@ -11,8 +11,8 @@ export default function FailedPage() {
     <div className="container mx-auto p-4 text-center">
       <div className="bg-white rounded-lg shadow-md p-8 max-w-md mx-auto mt-12">
         <h1 className="text-3xl font-bold text-red-500 mb-4">Payment Failed</h1>
-        <p className="mb-6">We're sorry, but your payment could not be processed.</p>
-
+        <p className="mb-6">We&apos;re sorry, but your payment could not be processed.</p> {/* Fixed apostrophe */}
+        
         {reason && (
           <div className="bg-red-50 p-4 rounded mb-6 text-left">
             <p><strong>Reason:</strong> {reason}</p>
