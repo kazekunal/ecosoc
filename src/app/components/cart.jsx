@@ -375,11 +375,26 @@ export default function Cart() {
   const [wantsPoker, setWantsPoker] = useState(false)
   const router = useRouter()
 
-  // Calculate additional charges
-  const accommodationCharge = !isSNUStudent ? 500 : 0
-  const pokerCharge = wantsPoker ? 150 : 0
-  const additionalCharges = accommodationCharge + pokerCharge
-  const grandTotal = total + additionalCharges
+  // Define pass quantities for each ticket type
+  const passQuantities = {
+    "Single Pass": 1,
+    "Pair Pass": 2,
+    "Party Pass": 4,
+  };
+
+  // Calculate total number of people based on the tickets in cart
+  const totalPeople = items.reduce((acc, item) => {
+    // Get quantity per pass type, defaulting to 1 if not found
+    const peoplePerPass = passQuantities[item.name] || 1;
+    // Multiply by the number of passes
+    return acc + (peoplePerPass * item.quantity);
+  }, 0);
+
+  // Calculate additional charges based on total people
+  const accommodationCharge = !isSNUStudent ? 500 * totalPeople : 0;
+  const pokerCharge = wantsPoker ? 150 * totalPeople : 0;
+  const additionalCharges = accommodationCharge + pokerCharge;
+  const grandTotal = total + additionalCharges;
 
   // Handle checkout with Paytm
   const handleCheckout = async () => {
@@ -402,22 +417,22 @@ export default function Cart() {
         })),
       ]
 
-      // Add accommodation if needed
+      // Add accommodation if needed with correct quantity
       if (!isSNUStudent) {
         checkoutItems.push({
           id: "accommodation",
           name: "ACCOMMODATION",
-          quantity: 1,
+          quantity: totalPeople,
           price: 500,
         })
       }
 
-      // Add poker buy-in if selected
+      // Add poker buy-in if selected with correct quantity
       if (wantsPoker) {
         checkoutItems.push({
           id: "poker",
           name: "Poker Buy-in",
-          quantity: 1,
+          quantity: totalPeople,
           price: 150,
         })
       }
@@ -538,6 +553,11 @@ export default function Cart() {
                         <div>
                           <h4 className="font-medium text-blue-800">{item.name}</h4>
                           <p className="text-sm text-blue-600">₹{item.price.toFixed(2)}</p>
+                          {passQuantities[item.name] > 1 && (
+                            <span className="text-xs text-blue-500">
+                              For {passQuantities[item.name]} people
+                            </span>
+                          )}
                         </div>
 
                         <Button
@@ -634,9 +654,12 @@ export default function Cart() {
                     <div className="flex justify-between items-center text-sm">
                       <div className="flex items-center text-blue-800">
                         <Hotel className="mr-2 h-4 w-4" />
-                        <span>ACCOMMODATION</span>
+                        <span>ACCOMMODATION (₹500 per person)</span>
                       </div>
-                      <Badge className="bg-blue-100 text-blue-800 border-blue-200">₹500.00</Badge>
+                      <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+                        {totalPeople > 1 ? `${totalPeople} × ₹500 = ` : ""}
+                        ₹{accommodationCharge.toFixed(2)}
+                      </Badge>
                     </div>
                   </div>
                 )}
@@ -650,9 +673,24 @@ export default function Cart() {
                   />
                   <Label htmlFor="poker" className="flex items-center cursor-pointer text-blue-800">
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Wanna try your luck at poker? (₹150 buy-in)
+                    Wanna try your luck at poker? (₹150 buy-in per person)
                   </Label>
                 </div>
+
+                {wantsPoker && (
+                  <div className="pl-6 border-l-2 border-blue-300 bg-blue-50 p-2 rounded">
+                    <div className="flex justify-between items-center text-sm">
+                      <div className="flex items-center text-blue-800">
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        <span>POKER BUY-IN (₹150 per person)</span>
+                      </div>
+                      <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+                        {totalPeople > 1 ? `${totalPeople} × ₹150 = ` : ""}
+                        ₹{pokerCharge.toFixed(2)}
+                      </Badge>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -661,22 +699,29 @@ export default function Cart() {
           <div className="mt-8 pt-4 border-t border-blue-200">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-blue-600">Subtotal:</span>
+                <span className="text-blue-600">Tickets Subtotal:</span>
                 <span className="text-blue-800">₹{total.toFixed(2)}</span>
               </div>
+
+              {totalPeople > 1 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-blue-600">Total People:</span>
+                  <span className="text-blue-800">{totalPeople}</span>
+                </div>
+              )}
 
               {additionalCharges > 0 && (
                 <>
                   {accommodationCharge > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-blue-600">Accommodation:</span>
+                      <span className="text-blue-600">Accommodation ({totalPeople} × ₹500):</span>
                       <span className="text-blue-800">₹{accommodationCharge.toFixed(2)}</span>
                     </div>
                   )}
 
                   {pokerCharge > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-blue-600">Poker Buy-in:</span>
+                      <span className="text-blue-600">Poker Buy-in ({totalPeople} × ₹150):</span>
                       <span className="text-blue-800">₹{pokerCharge.toFixed(2)}</span>
                     </div>
                   )}
@@ -709,6 +754,7 @@ export default function Cart() {
           </Button>
         </CardFooter>
       </Card>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-[#121212] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:16px_16px]"></div>
     </div>
   )
 }
