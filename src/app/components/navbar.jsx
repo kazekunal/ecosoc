@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { MapPin, Ticket, User, Menu, X, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useCart } from "../context/CartContext"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,6 +13,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const { items } = useCart()
+  
+  // Calculate total quantity of all items in cart
+  const cartItemCount = React.useMemo(() => {
+    return items.reduce((total, item) => total + item.quantity, 0)
+  }, [items])
 
   // Only show theme toggle after component has mounted (to avoid hydration mismatch)
   React.useEffect(() => {
@@ -99,7 +106,7 @@ export default function Navbar() {
                     variant="secondary"
                     className="absolute -right-2 -top-2 h-5 w-5 rounded-full p-0 flex items-center justify-center"
                   >
-                    0
+                    {cartItemCount}
                   </Badge>
                   <span className="sr-only">Tickets</span>
                 </Link>
@@ -161,10 +168,18 @@ export default function Navbar() {
               <div className={`flex justify-around items-center border-t border-${theme === "dark" ? "zinc-700" : "gray-200"} mt-4 pt-4`}>
                 <Link 
                   href="/cart" 
-                  className={`flex flex-col items-center hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"} p-2 rounded-lg`}
+                  className={`flex flex-col items-center hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"} p-2 rounded-lg relative`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <Ticket color="red" className="h-5 w-5 mb-1 fill" />
+                  {cartItemCount > 0 && (
+                    <Badge
+                      variant="secondary"
+                      className="absolute -right-2 -top-2 h-5 w-5 rounded-full p-0 flex items-center justify-center"
+                    >
+                      {cartItemCount}
+                    </Badge>
+                  )}
                   <span className="text-xs">Tickets</span>
                 </Link>
                 <Link 
