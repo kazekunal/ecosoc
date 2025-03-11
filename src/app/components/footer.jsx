@@ -116,8 +116,10 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
+          <Link href="/tnc">
           <p>© 2024 IQTISADIYYAT. All rights reserved. The Economics
             Society, Shiv Nadar University.</p>
+            </Link>
         </div>
       </div>
     </footer>
