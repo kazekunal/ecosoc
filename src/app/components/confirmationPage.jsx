@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Navbar from "./navbar";
 
 export default function ConfirmationPage() {
   const searchParams = useSearchParams();
@@ -11,12 +12,17 @@ export default function ConfirmationPage() {
     amount: 0,
     timestamp: ""
   });
+  const [hasValidOrder, setHasValidOrder] = useState(false);
 
   useEffect(() => {
     // Get order ID, payment ID, and amount from URL parameters
     const orderId = searchParams.get("orderId");
     const paymentId = searchParams.get("paymentId");
     const amount = searchParams.get("amount");
+    
+    // Check if we have valid order details
+    const isValidOrder = !!(orderId && amount);
+    setHasValidOrder(isValidOrder);
     
     // Set the order details
     setOrderDetails({
@@ -27,8 +33,59 @@ export default function ConfirmationPage() {
     });
   }, [searchParams]);
 
+  // Render different views based on whether we have valid order details
+  if (!hasValidOrder) {
+    return (
+        <>
+        <Navbar/>
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+          <div className="p-8">
+            <div className="flex items-center justify-center mb-8">
+              <div className="bg-yellow-100 rounded-full p-3">
+                <svg 
+                  className="h-8 w-8 text-yellow-600" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth="2" 
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            
+            <h2 className="text-center text-2xl font-bold text-gray-900 mb-6">
+              No Order Found
+            </h2>
+            
+            <p className="text-center text-gray-600 mb-8">
+              Kindly book a ticket to view your confirmation details.
+            </p>
+            
+            <div className="flex justify-center">
+              <Link href="/#tickets" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+                Book Tickets
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      </>
+    );
+  }
+
+  // Default view for successful orders
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
         <div className="p-8">
           <div className="flex items-center justify-center mb-8">
@@ -85,5 +142,6 @@ export default function ConfirmationPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -129,7 +129,7 @@ export default function Tickets() {
         <div className="text-center mt-8">
           <p className="text-[#2662d9]">
             Group discounts available for 10+ tickets.{" "}
-            <Link href="#" className="text-[#2662d9] underline">
+            <Link href="/contact" className="text-[#2662d9] underline">
               Contact us
             </Link>{" "}
             for details.

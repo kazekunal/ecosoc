@@ -8,7 +8,7 @@ const ContactUs = () => {
     subject: '',
     message: ''
   });
-  
+
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     error: false,
@@ -23,10 +23,10 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form data
+
+    // Validate required fields
     if (!formData.name || !formData.email || !formData.message) {
       setFormStatus({
         submitted: false,
@@ -35,22 +35,56 @@ const ContactUs = () => {
       });
       return;
     }
-    
-    // In a real application, you would send this data to your backend
-    // For this example, we'll just show a success message
+
     setFormStatus({
-      submitted: true,
+      submitted: false,
       error: false,
-      message: 'Thank you for contacting us! We will get back to you soon.'
+      message: 'Sending...'
     });
-    
-    // Reset form after successful submission
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+
+    // Create FormData object
+    const formDataToSend = new FormData();
+    formDataToSend.append("access_key", "834c7224-065b-4ff7-bbc3-19ae7d639d34");
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("subject", formData.subject || "Contact Form Submission");
+    formDataToSend.append("message", formData.message);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFormStatus({
+          submitted: true,
+          error: false,
+          message: 'Thank you for contacting us! We will get back to you soon.'
+        });
+
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        setFormStatus({
+          submitted: false,
+          error: true,
+          message: data.message || 'Something went wrong. Please try again.'
+        });
+      }
+    } catch (error) {
+      setFormStatus({
+        submitted: false,
+        error: true,
+        message: 'Failed to submit the form. Please try again later.'
+      });
+    }
   };
 
   return (
@@ -129,92 +163,76 @@ const ContactUs = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Contact Form */}
         <div className="bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-6">Send us a Message</h2>
-          
-          {formStatus.submitted ? (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+
+          {formStatus.message && (
+            <div className={`mb-6 p-4 rounded ${formStatus.error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
               {formStatus.message}
             </div>
-          ) : formStatus.error ? (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-              {formStatus.message}
-            </div>
-          ) : null}
-          
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
-                Name *
-              </label>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Name *</label>
               <input
                 type="text"
-                id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border rounded-lg"
                 required
               />
             </div>
-            
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-                Email *
-              </label>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Email *</label>
               <input
                 type="email"
-                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border rounded-lg"
                 required
               />
             </div>
-            
-            <div className="mb-4">
-              <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
-                Subject
-              </label>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Subject</label>
               <input
                 type="text"
-                id="subject"
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                </div>
-                
-                        <div className="mb-6">
-                          <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
-                            Message *
-                          </label>
-                          <textarea
-                            id="message"
-                            name="message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            rows="4"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                          ></textarea>
-                        </div>
-                        
-                        <button
-                          type="submit"
-                          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-                        >
-                          Send Message
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                );
-                };
-                
-                export default ContactUs;
+                className="w-full p-3 border rounded-lg"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Message *</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-lg"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
+            >
+              {formStatus.submitted ? "Sent!" : "Send Message"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactUs;

@@ -114,7 +114,7 @@ export default function Navbar() {
 
               {/* Account */}
               <Button variant="ghost" size="icon" asChild className="hidden md:flex">
-                <Link href="/account">
+                <Link href="/confirmation">
                   <User className="h-5 w-5" />
                   <span className="sr-only">Account</span>
                 </Link>
@@ -191,7 +191,7 @@ export default function Navbar() {
                   <span className="text-xs">Venues</span>
                 </Link>
                 <Link 
-                  href="/account" 
+                  href="/confirmation" 
                   className={`flex flex-col items-center hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"} p-2 rounded-lg`}
                   onClick={() => setIsMenuOpen(false)}
                 >
