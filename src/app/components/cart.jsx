@@ -458,7 +458,10 @@ export default function Cart() {
           >
             Clear Cart
           </Button>
-          <PayNowButton amount={grandTotal}/>
+          <PayNowButton 
+            amount={grandTotal} 
+            clearCart={clearCart}
+          />
           {/* <Button
             variant="default"
             onClick={handleCheckout}

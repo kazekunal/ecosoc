@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const PayNowButton = ({ amount }) => {
+const PayNowButton = ({ amount, clearCart }) => {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handlePayment = async () => {
         if (!amount || amount <= 0) {
@@ -16,7 +18,6 @@ const PayNowButton = ({ amount }) => {
             const response = await fetch("/api/razorpay", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // body: JSON.stringify({ amount: testAmount, currency: "INR" })
                 body: JSON.stringify({ amount, currency: "INR" }) // Use dynamic amount
             });
 
@@ -36,7 +37,17 @@ const PayNowButton = ({ amount }) => {
                 order_id: orderData.id,
                 handler: (response) => {
                     console.log("✅ Payment Success:", response);
-                    alert("Payment successful!");
+                    
+                    // Clear the cart
+                    if (typeof clearCart === 'function') {
+                        clearCart();
+                    }
+                    
+                    // Store amount for confirmation page
+                    const amountInRupees = (orderData.amount / 100).toFixed(2);
+                    
+                    // Redirect to confirmation page with payment details including amount
+                    router.push(`/confirmation?orderId=${orderData.id}&paymentId=${response.razorpay_payment_id}&amount=${amountInRupees}`);
                 },
                 prefill: {
                     name: "Your Name",
@@ -61,7 +72,7 @@ const PayNowButton = ({ amount }) => {
             disabled={loading}
             className="bg-blue-500 text-white px-6 py-3 rounded-lg disabled:bg-gray-400"
         >
-            {loading ? "Processing..." : `Pay ₹1`}
+            {loading ? "Processing..." : `Pay ₹${amount}`}
         </button>
     );
 };
