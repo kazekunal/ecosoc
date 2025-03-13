@@ -1,35 +1,16 @@
-// "use client";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import { CartProvider } from './context/CartContext';
+import ClientRootLayout from "./components/clientrootlayout";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "IQTISADIYYAT",
-  description: "By the economics society of shiv nadar university",
+  description: "By the economics society of Shiv Nadar University",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CartProvider>
-            {children}
-          </CartProvider>
-        </ThemeProvider>
+      <body>
+        <ClientRootLayout>{children}</ClientRootLayout>
       </body>
     </html>
   );
