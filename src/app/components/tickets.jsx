@@ -130,9 +130,9 @@ export default function Tickets() {
           <p className="text-[#2662d9]">
             Group discounts available for 10+ tickets.{" "}
             <Link href="/contact" className="text-[#2662d9] underline">
-              Contact us
+              See our FAQ's 
             </Link>{" "}
-            for details.
+            for further details.
           </p>
         </div>
       </div>

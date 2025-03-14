@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button"; // Ensure this import exists
 
-const PayNowButton = ({ amount, clearCart }) => {
+const PayNowButton = ({ amount, clearCart, disabled }) => { // Accept disabled prop
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -67,13 +68,14 @@ const PayNowButton = ({ amount, clearCart }) => {
     };
 
     return (
-        <button
+        <Button 
+            variant="default"
             onClick={handlePayment}
-            disabled={loading}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg disabled:bg-gray-400"
+            disabled={loading || disabled} // Disable when loading or conditions met
+            className="w-full sm:flex-1 bg-blue-600 hover:bg-blue-700 text-white"
         >
             {loading ? "Processing..." : `Pay ₹${amount}`}
-        </button>
+        </Button>
     );
 };
 

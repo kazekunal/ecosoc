@@ -52,8 +52,8 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="font-bold">Contact</div>
             <ul className="space-y-2">
-              <li className="text-sm">economics.society@snu.edu.in</li>
-              <li className="text-sm">+91 123 456 7890</li>
+              <li className="text-sm">economicssociety@snu.edu.in</li>
+              <li className="text-sm">+91 9999044864</li>
               <li className="text-sm">Shiv Nadar University, Greater Noida</li>
             </ul>
           </div>

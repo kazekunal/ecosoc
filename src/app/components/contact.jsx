@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -229,6 +230,45 @@ const ContactUs = () => {
               {formStatus.submitted ? "Sent!" : "Send Message"}
             </button>
           </form>
+        </div>
+      </div>
+      {/* FAQ Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">What does the ticket price include?</h4>
+            <p className="text-gray-600">The ticket price grants access to both days of Iqtisadiyyat’25, including speaker sessions, panel discussions, on-the-spot competitions, networking opportunities, delegate kits, lunch and pro-night. Single-day passes will not be available.</p>
+          </div>
+          
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">Is accommodation provided for external participants?</h4>
+            <p className="text-gray-600">External participants (those not from Shiv Nadar Univeristy) who wish to stay overnight on the university campus must pay an additional charge for accommodation. Accommodation pricing will be visible in the ticket purchase process.</p>
+          </div>
+          
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">What if I don’t opt for accommodation?</h4>
+            <p className="text-gray-600">If you choose not to avail accommodation, you must leave the university premises by 7 PM on both days of the conclave.</p>
+          </div>
+          
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">Will meals be provided during the conclave?</h4>
+            <p className="text-gray-600">Yes, lunch will be included in your ticket prices. You might also find refreshment stalls here and there during the conclave. .</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">I’ve made the payment for the tickets, where will I get them? Can I cancel my ticket and get a refund?</h4>
+            <p className="text-gray-600">Once your payment is confirmed, you’ll get an automated email with your tickets to the email address provided during the payment process. Tickets are non-refundable once purchased. Please review our Cancellation and Refund Policy for more details.</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h4 className="text-xl font-bold text-gray-900 mb-3">I am a representative of a university/college/school and would like to send a contingent of students. What should I do?</h4>
+            <p className="text-gray-600">If you are a representative of a university, college, or school and would like to send a contingent of students, please reach out to us at [economicssociety@snu.edu.in]. We can arrange special contingent discounts and provide shuttle services from Botanical Garden to our campus for ease of travel.</p>
+          </div>
+        </div>
+        
+        <div className="mt-8 text-center">
+          <p className="text-gray-600">Don&apos;t see your question? <Link href="#form" className="text-blue-800 font-medium hover:underline">Send us an message</Link> and we will reply as soon as possible</p>
         </div>
       </div>
     </div>

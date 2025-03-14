@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export default function Hero() {
   return (
     <section className="relative w-full flex justify-center">
-      <div className="container mx-auto px-4 py-24 md:py-32 space-y-8 lg:space-y-12">
+      <div className="container mx-auto px-4 py-10 md:py-32 space-y-8 lg:space-y-12">
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="inline-block rounded-lg bg-[#2662d9]/10 dark:bg-[#2662d9]/20 px-3 py-1 text-sm text-[#2662d9] dark:text-[#6b9eff]">
             The Economic Society Presents
@@ -14,9 +14,11 @@ export default function Hero() {
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-black dark:text-white">
             IQTISADIYYAT <span className="text-[#2662d9] dark:text-[#6b9eff]">2025</span>
           </h1>
+          <h2 className="text-2xl sm:text-3xl font-medium text-[#2662d9] dark:text-white">
+            Bridging Divides: Building an Inclusive Economy
+          </h2>
           <p className="max-w-[700px] text-[#6f6f7b] dark:text-[#a1a1b5] md:text-xl">
-            The premier economics conclave that brings together thought leaders,
-            interactive learning, and a culinary experience like no other.
+          Join thought leaders, policymakers, and industry experts at Iqtisadiyyat'25 to tackle India's most pressing economic challenges and shape a more inclusive future. Are you ready to rethink what’s possible?
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
