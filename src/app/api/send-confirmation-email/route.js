@@ -42,7 +42,7 @@ export async function POST(req) {
             console.log(`✉️ Sending email to ${email}`);
             try {
                 const emailResult = await resend.emails.send({
-                    from: 'onboarding@resend.dev', 
+                    from: 'events@iqtisadiyyat.in', 
                     to: [email],
                     subject: 'IQTISADIYYAT - Ticket Confirmation',
                     react: EmailTemplate({ orderId, items, participants, needsAccommodation, totalAmount }),
