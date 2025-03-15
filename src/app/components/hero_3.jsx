@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="container mx-auto px-4 py-10 md:py-32 space-y-8 lg:space-y-12">
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="inline-block rounded-lg bg-[#2662d9]/10 dark:bg-[#2662d9]/20 px-3 py-1 text-sm text-[#2662d9] dark:text-[#6b9eff]">
-            The Economic Society Presents
+            The Economics Society Presents
           </div>
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-black dark:text-white">
             IQTISADIYYAT <span className="text-[#2662d9] dark:text-[#6b9eff]">2025</span>

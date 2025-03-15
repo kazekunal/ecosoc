@@ -36,6 +36,8 @@ export default function Cart() {
     return acc + (peoplePerPass * item.quantity)
   }, 0)
 
+  const participantData = participants.slice(0, totalPeople);
+
   // Initialize participant forms based on ticket type when items change
   useEffect(() => {
     // Reset participants array with empty objects based on total people
@@ -59,6 +61,38 @@ export default function Cart() {
   const additionalCharges = accommodationCharge + pokerCharge
   const grandTotal = total + additionalCharges
 
+  // Prepare checkout items
+  const prepareCheckoutItems = () => {
+    const checkoutItems = [...items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    }))]
+
+    // Add accommodation if needed
+    if (needsAccommodation) {
+      checkoutItems.push({
+        id: "accommodation",
+        name: "ACCOMMODATION",
+        quantity: totalPeople,
+        price: 500,
+      })
+    }
+
+    // Add poker buy-in if selected
+    if (wantsPoker) {
+      checkoutItems.push({
+        id: "poker",
+        name: "Poker Buy-in",
+        quantity: totalPeople,
+        price: 150,
+      })
+    }
+
+    return checkoutItems;
+  }
+
   // Validate if all required fields are filled
   const areAllFieldsFilled = () => {
     // Check if there are any participants
@@ -72,145 +106,80 @@ export default function Cart() {
     )
   }
 
-  // Handle checkout with Razorpay
-  const handleCheckout = async () => {
-    if (items.length === 0) return
-    if (!areAllFieldsFilled()) {
-      alert("Please fill in all participant details")
-      return
-    }
-  
-    setIsLoading(true)
-
+  // Add this function before handleCheckout
+  const handlePaymentSuccess = async (response, checkoutItems) => {
     try {
-      // Prepare items array with additional charges if applicable
-      const checkoutItems = [...items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-      }))]
-  
-      // Add accommodation if needed
-      if (needsAccommodation) {
-        checkoutItems.push({
-          id: "accommodation",
-          name: "ACCOMMODATION",
-          quantity: totalPeople,
-          price: 500,
-        })
-      }
-  
-      // Add poker buy-in if selected
-      if (wantsPoker) {
-        checkoutItems.push({
-          id: "poker",
-          name: "Poker Buy-in",
-          quantity: totalPeople,
-          price: 150,
-        })
-      }
-  
-      console.log("Making API request with data:", {
-        amount: grandTotal * 100,
-        customerId,
-        items: checkoutItems,
-        participants: participants.slice(0, totalPeople),
-        needsAccommodation,
-      })
-  
-      // Create order with Razorpay
-      const response = await fetch("/api/create-razorpay-order", {
+      console.log("🔹 Payment successful, processing verification...");
+      const verifyResponse = await fetch("/api/verify-razorpay-payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: grandTotal * 100, // Razorpay amount in paise
-          customerId,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+          amount: grandTotal,
           items: checkoutItems,
           participants: participants.slice(0, totalPeople),
           needsAccommodation,
         }),
-      })
+      });
   
-      const data = await response.json()
-      
-      if (!data.order_id) {
-        console.error("Order ID missing from response:", data)
-        alert("Error creating payment: " + (data.error || "No order ID returned"))
-        setIsLoading(false)
-        return
-      }
-
-      // Initialize Razorpay payment
-      const options = {
-        key: data.key_id || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: grandTotal * 100, // in paise
-        currency: "INR",
-        name: "SNU Event",
-        description: "Ticket Purchase",
-        order_id: data.order_id,
-        handler: async function (response) {
-          // Handle payment success
-          try {
-            const verifyResponse = await fetch("/api/verify-razorpay-payment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-                amount: grandTotal,
-                items: checkoutItems,
-                participants: participants.slice(0, totalPeople),
-                needsAccommodation,
-              }),
-            })
-
-            const verifyData = await verifyResponse.json()
-
-            if (verifyData.success) {
-              // Payment successful
-              alert("Payment successful! Your tickets are confirmed.")
-              clearCart()
-              router.push("/thank-you") // Redirect to thank you page
-            } else {
-              // Payment verification failed
-              alert("Payment verification failed. Please contact support.")
-            }
-          } catch (error) {
-            console.error("Payment verification error:", error)
-            alert("Error during payment verification. Please contact support.")
+      const verifyData = await verifyResponse.json();
+  
+      if (verifyData.success) {
+        console.log("✅ Payment verification successful, sending confirmation email");
+        
+        try {
+          const participantData = participants.slice(0, totalPeople);
+          
+          console.log("🔹 Sending confirmation email with data:", {
+            orderId: response.razorpay_order_id,
+            items: checkoutItems,
+            participants: participantData.map(p => ({ name: p.name, email: p.email })),
+            needsAccommodation,
+            totalAmount: grandTotal
+          });
+  
+          const emailResponse = await fetch("/api/send-confirmation-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              orderId: response.razorpay_order_id,
+              items: checkoutItems,
+              participants: participantData,
+              needsAccommodation,
+              totalAmount: grandTotal,
+            }),
+          });
+  
+          console.log("🔹 Email API response status:", emailResponse.status);
+          const emailData = await emailResponse.json();
+          
+          if (emailResponse.ok) {
+            console.log("✅ Confirmation email sent successfully:", emailData);
+          } else {
+            console.error("❌ Failed to send confirmation email:", emailData.error || emailData);
           }
-        },
-        prefill: {
-          name: participants[0].name,
-          contact: participants[0].mobile,
-          email: participants[0].email,
-        },
-        theme: {
-          color: "#2563eb", // blue-600
-        },
-        modal: {
-          ondismiss: function () {
-            setIsLoading(false)
-          },
-        },
+        } catch (emailError) {
+          console.error("❌ Error sending confirmation email:", emailError);
+        }
+  
+        alert("Payment successful! Your tickets are confirmed. A confirmation email has been sent.");
+        clearCart();
+        router.push("/thank-you");
+      } else {
+        console.error("❌ Payment verification failed:", verifyData);
+        alert("Payment verification failed. Please contact support.");
       }
-
-      // Open Razorpay checkout
-      const rzp = new window.Razorpay(options)
-      rzp.open()
     } catch (error) {
-      console.error("Checkout error:", error)
-      alert("Error during checkout. Please try again.")
-    } finally {
-      setIsLoading(false)
+      console.error("❌ Payment verification error:", error);
+      alert("Error during payment verification. Please contact support.");
     }
-  }
+  };
 
   // Show loading state during client-side hydration
   if (!isClient) {
@@ -363,8 +332,7 @@ export default function Cart() {
                         <span className="font-medium text-gray-800 dark:text-gray-200">
                           {participant.name ? participant.name : `Participant ${index + 1}`}
                         </span>
-                        {!participant.name || !participant.mobile || !participant.email ? (
-                          <Badge variant="outline" className="ml-2 bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800">
+                        {!participant.name || !participant.mobile || !participant.email ? (<Badge variant="outline" className="ml-2 bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800">
                             Incomplete
                           </Badge>
                         ) : (
@@ -458,20 +426,14 @@ export default function Cart() {
             Clear Cart
           </Button>
           
-          {/* <Button
-            variant="default"
-            onClick={handleCheckout}
-            disabled={isLoading || !areAllFieldsFilled()}
-            className="w-full sm:flex-1 bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-700 dark:hover:bg-blue-600"
-          >
-            {isLoading ? "Processing..." : "Pay Now"}
-          </Button> */}
-          
-          {/* Alternatively, you can use the PayNowButton component here */}
+          {/* Replace the old Button with the PayNowButton component and pass all required props */}
           <PayNowButton 
             amount={grandTotal} 
             clearCart={clearCart}
             disabled={!areAllFieldsFilled()}
+            participants={participants.slice(0, totalPeople)}
+            items={prepareCheckoutItems()}
+            needsAccommodation={needsAccommodation}
           />
         </CardFooter>
       </Card>
