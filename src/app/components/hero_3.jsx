@@ -8,11 +8,11 @@ export default function Hero() {
     <section className="relative w-full flex justify-center">
       <div className="container mx-auto px-4 py-10 md:py-32 space-y-8 lg:space-y-12">
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className="inline-block rounded-lg bg-[#2662d9]/10 dark:bg-[#2662d9]/20 px-3 py-1 text-sm text-[#2662d9] dark:text-[#6b9eff]">
+          <div className="inline-block rounded-lg bg-[#2662d9]/10 dark:bg-[#2662d9]/20 px-3 py-1 text-sm text-[#2662d9] dark:text-[#6A9EFF]">
             The Economics Society Presents
           </div>
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-black dark:text-white">
-            IQTISADIYYAT <span className="text-[#2662d9] dark:text-[#6b9eff]">2025</span>
+            IQTISADIYYAT <span className="text-[#2662d9] dark:text-[#2662d9]">2025</span>
           </h1>
           <h2 className="text-2xl sm:text-3xl font-medium text-[#2662d9] dark:text-white">
             Bridging Divides: Building an Inclusive Economy
@@ -22,21 +22,21 @@ export default function Hero() {
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
-              <Calendar className="h-4 w-4 text-[#2662d9] dark:text-[#6b9eff]" />
+              <Calendar className="h-4 w-4 text-[#2662d9] dark:text-[#f5efeb]" />
               <span>April 5-6, 2025</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
-              <Clock className="h-4 w-4 text-[#2662d9] dark:text-[#6b9eff]" />
+              <Clock className="h-4 w-4 text-[#2662d9] dark:text-[#f5efeb]" />
               <span>9:00 AM - 6:00 PM</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
-              <MapPin className="h-4 w-4 text-[#2662d9] dark:text-[#6b9eff]" />
+              <MapPin className="h-4 w-4 text-[#2662d9] dark:text-[#f5efeb]" />
               <span>Shiv Nadar University, Greater Noida</span>
             </div>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-          <Button size="lg" asChild className="bg-[#2662d9] hover:bg-[#2626d0] dark:bg-[#3a75e0] dark:hover:bg-[#2f61c2] text-lg">
+          <Button size="lg" asChild className="bg-[#2662d9] hover:bg-[#2626d0] dark:bg-[#2662d9] dark:hover:bg-[#2f61c2] text-lg">
             <Link href="#tickets">
               Buy Your Ticket <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -47,6 +47,7 @@ export default function Hero() {
         </div>
       </div>
       <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-[#121212] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      
     </section>
   );
 }

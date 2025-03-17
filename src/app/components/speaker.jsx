@@ -4,22 +4,22 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const speakers = [
     {
-      name: "Dr. Raghuram Rajan",
-      title: "Former Governor, Reserve Bank of India",
-      bio: "Renowned economist with expertise in international finance and banking systems.",
+      name: "Dr T.C.A Anant",
+      title: " Former Chief Statistician of India, ex-Secretary of the Ministry of Statistics and Programme Implementation (MoSPI)",
+      bio: "Renowned Statistician with expertise in international finance and banking systems.",
       topic: "Future of Banking in Emerging Economies",
       image: "/placeholder.svg?height=300&width=400",
     },
     {
-      name: "Dr. Abhijit Banerjee",
-      title: "Nobel Laureate in Economics",
+      name: "Dr Santosh K Mehrotra",
+      title: "Research Fellow – IZA Institute of Labour Economics and Chairperson – Centre for Informal Sector and Labour",
       bio: "Pioneer in development economics and poverty alleviation strategies.",
       topic: "Experimental Approaches to Alleviating Global Poverty",
       image: "/placeholder.svg?height=300&width=400",
     },
     {
-      name: "Dr. Gita Gopinath",
-      title: "Chief Economist, International Monetary Fund",
+      name: "Dr Abhishek Gupta",
+      title: "Chief India Economist, Bloomberg",
       bio: "Expert in international finance, monetary policy, and global trade.",
       topic: "Global Economic Outlook Post-Pandemic",
       image: "/placeholder.svg?height=300&width=400",

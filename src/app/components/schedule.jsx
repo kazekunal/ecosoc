@@ -3,98 +3,100 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin } from "lucide-react";
 
 const schedule = {
-    day1: [
-      {
-        time: "09:00 - 10:00",
-        title: "Registration & Welcome Breakfast",
-        description: "Check-in and enjoy a networking breakfast with fellow attendees.",
-        location: "Main Hall",
-      },
-      {
-        time: "10:00 - 11:30",
-        title: "Opening Keynote",
-        description: "The Future of Economic Policy in a Changing World",
-        speaker: "Dr. Raghuram Rajan",
-        location: "Auditorium",
-      },
-      {
-        time: "11:45 - 13:00",
-        title: "Panel Discussion",
-        description: "Navigating Economic Uncertainty: Strategies for Businesses and Individuals",
-        location: "Conference Room A",
-      },
-      {
-        time: "13:00 - 14:00",
-        title: "Lunch & Networking",
-        description: "Experience our Global Trade Platter and connect with speakers and attendees.",
-        location: "Dining Hall",
-      },
-      {
-        time: "14:15 - 15:30",
-        title: "Interactive Workshop",
-        description: "Market Simulation: Understanding Supply and Demand Dynamics",
-        location: "Workshop Room 1",
-      },
-      {
-        time: "15:45 - 17:00",
-        title: "Keynote Address",
-        description: "Experimental Approaches to Alleviating Global Poverty",
-        speaker: "Dr. Abhijit Banerjee",
-        location: "Auditorium",
-      },
-      {
-        time: "17:15 - 18:30",
-        title: "Economics Game Night",
-        description: "Participate in fun, interactive games that teach economic principles.",
-        location: "Main Hall",
-      },
-    ],
-    day2: [
-      {
-        time: "09:30 - 10:30",
-        title: "Breakfast & Recap",
-        description: "Morning refreshments and a recap of Day 1 highlights.",
-        location: "Main Hall",
-      },
-      {
-        time: "10:30 - 12:00",
-        title: "Keynote Address",
-        description: "Global Economic Outlook Post-Pandemic",
-        speaker: "Dr. Gita Gopinath",
-        location: "Auditorium",
-      },
-      {
-        time: "12:15 - 13:30",
-        title: "Breakout Sessions",
-        description: "Choose from specialized tracks on monetary policy, development economics, or behavioral economics.",
-        location: "Various Rooms",
-      },
-      {
-        time: "13:30 - 14:30",
-        title: "Lunch & Networking",
-        description: "Enjoy our Fiscal Policy Fusion menu while networking with peers.",
-        location: "Dining Hall",
-      },
-      {
-        time: "14:45 - 16:00",
-        title: "Student Research Showcase",
-        description: "Promising economics students present their research findings and innovative ideas.",
-        location: "Conference Room B",
-      },
-      {
-        time: "16:15 - 17:30",
-        title: "Panel Discussion",
-        description: "The Role of Economics in Addressing Climate Change and Sustainability",
-        location: "Auditorium",
-      },
-      {
-        time: "17:45 - 19:00",
-        title: "Closing Ceremony & Networking Reception",
-        description: "Final remarks, awards presentation, and farewell reception.",
-        location: "Main Hall",
-      },
-    ],
-  }
+  day1: [
+    {
+      time: "12:00 - 12:30",
+      title: "Registrations & Delegate Kits",
+      description: "Check in and receive your delegate kits",
+      location: "G-Block",
+    },
+    {
+      time: "12:30 - 1:00",
+      title: "Opening Ceremony",
+      description: "Beginning with fresh ideas and inspiring voices!",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "1:00 - 2:00",
+      title: "Keynote Session ",
+      description: "Speakers take the stage to share ideas that challenge and inspire.",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "2:00 - 3:00",
+      title: "Lunch & Networking",
+      description: "An informal meal for attendees, panelists, and delegates to put your networking skills to work!",
+      location: "G-Block hall",
+    },
+    {
+      time: "3:00 - 4:00",
+      title: "Industry Insights",
+      description: "Session with Mr. Shraman Jha - CEO at Hindustan Unilever Foundation",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "4:00 - 5:30",
+      title: "Skill Building/Corporate Workshop",
+      description: "Get practical skills and career insights from top industry experts.",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "5:30 - 7:30",
+      title: "Financial Frontlines & EquiNomics",
+      description: "Where strategy meets numbers - Business Economics Case Competition",
+      location: "G-Block Room",
+    },
+    {
+      time: "8:00 pm onwards",
+      title: "Jam and Karaoke Night",
+      description: "Hit the High Note at the karaoke night!",
+      location: "B-315",
+    },
+  ],
+  day2: [
+    {
+      time: "11:00 - 1:00",
+      title: "State of the Nation",
+      description: "Mock Parliamentary Debate Competition",
+      location: "SARC - First floor",
+    },
+    {
+      time: "1:00 - 2:00",
+      title: "Keynote Session",
+      description: "Session by Dr. T.C.A. Anant - Former Chief Statistician of India",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "2:00 - 3:00",
+      title: "Lunch & Networking",
+      location: "G-Block Hall",
+    },
+    {
+      time: "3:00 - 4:00",
+      title: "Economic Insights",
+      description: "Session with Dr. Abhishek Gupta - The Chief India Economist at Bloomberg",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "4:00 - 5:30",
+      title: "India@100 Panel",
+      description: "Three unique perspectives on India's journey to 100—growth, challenges, and what’s next.",
+      location: "G-Block Auditorium",
+    },
+    {
+      time: "5:30 - 7:00",
+      title: "Tax Me Please!",
+      description: "Exploit smartly, earn the most.",
+      location: "G-Block Room",
+    },
+    {
+      time: "8:00 pm onwards",
+      title: "Pro Night",
+      description: "Blow off the steam with a surprise guest!",
+      location: "G-Block Auditorium",
+    },
+  ],
+};
   
 
 export default function Schedule() {

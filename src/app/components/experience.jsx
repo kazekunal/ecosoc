@@ -1,65 +1,40 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 const games = [
     {
-      title: "Market Simulation",
+      title: "EquiNomics: Case Competition",
       description:
-        "Experience real-time market dynamics through an interactive trading simulation that demonstrates supply and demand principles.",
-      image: "/placeholder.svg?height=200&width=400",
+        "EquiNomics is a hybrid case study competition where participants must use their economics, business acumen and problem-solving skills to give practical solutions",
+      image: "/game_2.jpg",
+      link:"https://unstop.com/p/iqtisadiyyat25-iqtisadiyyat25-shiv-nadar-university-1430684",
+      height:"20",
+      width:"400"
     },
     {
-      title: "Policy Maker",
+      title: "State of the Nation: Mock Parliament",
       description:
-        "Step into the shoes of a central banker and make monetary policy decisions to stabilize a simulated economy.",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Trade Wars",
-      description:
-        "Navigate international trade negotiations and experience the impact of tariffs, subsidies, and trade agreements.",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Behavioral Economics Lab",
-      description:
-        "Participate in experiments that reveal cognitive biases and their impact on economic decision-making.",
-      image: "/placeholder.svg?height=200&width=400",
-    },
+        "The State of the Nation is a mock parliamentary debate where participants become Members of Parliament (MPs), suggest amendments and ultimately vote to determine the legislation.",
+      image: "/game_1.png",
+      link:"https://unstop.com/p/the-state-of-the-nation-iqtisadiyyat25-shiv-nadar-university-snu-greater-noida-1431220",
+      height:"200",
+      width:"400"
+    }
   ]
   
 
 
   const foodItems = [
     {
-      name: "Global Trade Platter",
+      name: "Financial Frontlines",
       description: "A selection of dishes featuring ingredients from major trade routes throughout history.",
       image: "/placeholder.svg?height=200&width=200",
     },
     {
-      name: "Inflation Hot Pot",
+      name: "Tax Me Please",
       description: "A spicy dish that gets progressively more intense, just like inflation!",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      name: "Supply & Demand Sushi",
-      description: "Limited availability sushi that changes price based on remaining quantity.",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      name: "GDP Growth Greens",
-      description: "A sustainable salad featuring locally sourced ingredients that support economic growth.",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      name: "Fiscal Policy Fusion",
-      description: "A balanced blend of flavors representing different economic schools of thought.",
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      name: "Keynesian Dessert",
-      description: "A sweet treat that demonstrates the multiplier effect with layers of flavor.",
       image: "/placeholder.svg?height=200&width=200",
     },
   ]
@@ -73,29 +48,30 @@ export default function Experience() {
             The IQTISADIYYAT Experience
           </div>
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            More Than Just Lectures
+            4 Challenges, 1 Stage
           </h2>
           <p className="max-w-[700px] text-[#71717a] md:text-xl">
-            Immerse yourself in a holistic learning environment with interactive
-            games and gourmet food.
+          Two thrilling on-the-spot games, two high-stakes qualifiers—test your skills against the sharpest minds. Open for all, exclusive for the best. Register now on Unstop!
           </p>
         </div>
 
         <Tabs defaultValue="games" className="w-full max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="games">UnStop Games</TabsTrigger>
+            <TabsTrigger value="games">Open Qualifiers</TabsTrigger>
             <TabsTrigger value="food">Offline Games</TabsTrigger>
           </TabsList>
           <TabsContent value="games" className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {games.map((game, index) => (
+                <Link href={game.link}>
                 <Card key={index} className="overflow-hidden">
                   <div className="aspect-video relative">
                     <Image
                       src={game.image || "/placeholder.svg"}
                       alt={game.title}
-                      fill
-                      className="object-cover"
+                      width = {game.width}
+                      height={game.height}
+                      className="object-cover pl-0 md:pl-8"
                     />
                   </div>
                   <CardContent className="p-6">
@@ -103,12 +79,12 @@ export default function Experience() {
                     <p className="mt-2 text-[#71717a]">{game.description}</p>
                   </CardContent>
                 </Card>
+                </Link>
               ))}
             </div>
             <div className="mt-8 text-center">
               <p className="text-[#71717a]">
-                All games are designed to enhance your understanding of economic
-                principles in a fun, interactive way.
+              Open Qualifiers are free for all, but the Offline Competitions are exclusive to Iqtisadiyyat'25 ticket holders
               </p>
             </div>
           </TabsContent>
@@ -132,9 +108,8 @@ export default function Experience() {
               ))}
             </div>
             <div className="mt-8 text-center">
-              <p className="text-[#71717a]">
-                Our carefully curated menu features dishes inspired by economic
-                concepts and global trade routes.
+            <p className="text-[#71717a]">
+            Open Qualifiers are free for all, but the Offline Competitions are exclusive to Iqtisadiyyat'25 ticket holders
               </p>
             </div>
           </TabsContent>
