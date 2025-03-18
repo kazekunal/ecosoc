@@ -7,8 +7,8 @@ const speakers = [
     {
       name: "Dr T.C.A Anant",
       title: " Former Chief Statistician of India, ex-Secretary of the Ministry of Statistics and Programme Implementation (MoSPI)",
-      bio: "Renowned Statistician with expertise in international finance and banking systems.",
-      topic: "Future of Banking in Emerging Economies",
+      bio: "Renowned Statistician with expertise in policy, employment and labour economics.",
+      topic: "Bridging the urban rural divide",
       image: "/tca.png",
     },
     {
@@ -22,7 +22,7 @@ const speakers = [
       name: "Dr Abhishek Gupta",
       title: "Chief India Economist, Bloomberg",
       bio: "Expert in international finance, monetary policy, and global trade.",
-      topic: "Global Economic Outlook Post-Pandemic",
+      topic: "Economic and market trend insights.",
       image: "/ab.png",
     },
   ]
@@ -39,8 +39,7 @@ export default function Speakers() {
             Learn from the Best Minds in Economics
           </h2>
           <p className="max-w-[700px] text-[#71717a] dark:text-[#a1a1b5] md:text-xl">
-            Our carefully curated lineup of speakers brings diverse perspectives
-            and cutting-edge insights.
+          Our thoughtfully curated lineup of economists, media, policy and industry experts bring you fresh perspectives and innovative ideas
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
