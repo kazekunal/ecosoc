@@ -7,6 +7,46 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    const submitToGoogleSheets = async (formData) => {
+        try {
+            console.log("📊 Submitting data to Google Sheets...");
+            const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+            
+            if (!GOOGLE_SCRIPT_URL) {
+                console.error("❌ Google Script URL not defined in environment variables");
+                return false;
+            }
+            
+            // Prepare form data to send to Google Sheets
+            const sheetsData = {
+                orderId: formData.orderId,
+                paymentId: formData.paymentId,
+                amount: formData.amount,
+                // Format each participant's data
+                participants: formData.participants.map(p => ({
+                    name: p.name,
+                    email: p.email,
+                    mobile: p.mobile
+                }))
+            };
+            
+            console.log("📊 Sending data to Google Sheets:", sheetsData);
+            
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(sheetsData)
+            });
+            
+            console.log("✅ Data submitted to Google Sheets successfully");
+            return true;
+        } catch (error) {
+            console.error("❌ Error submitting to Google Sheets:", error);
+            return false;
+        }
+    };
+
     const handlePaymentSuccess = async (response, orderData) => {
         try {
             console.log("🔹 Payment successful, verifying with server...");
@@ -31,6 +71,17 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
                 // Use the participants data passed as props
                 const participantsData = participants || [];
                 console.log("🔹 Participants data:", participantsData);
+                
+                // Submit to Google Sheets first
+                const googleSheetsData = {
+                    orderId: response.razorpay_order_id,
+                    paymentId: response.razorpay_payment_id,
+                    amount: amount,
+                    participants: participantsData,
+                    paymentDate: new Date().toISOString()
+                };
+                
+                await submitToGoogleSheets(googleSheetsData);
     
                 const emailResponse = await fetch("/api/send-confirmation-email", {
                     method: "POST",
