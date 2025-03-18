@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsAccommodation }) => { 
+const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsAccommodation, isSNUStudent }) => { 
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -17,26 +17,28 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
                 return false;
             }
             
-            // Prepare form data to send to Google Sheets
-            const sheetsData = {
-                orderId: formData.orderId,
-                paymentId: formData.paymentId,
-                amount: formData.amount,
-                // Format each participant's data
-                participants: formData.participants.map(p => ({
-                    name: p.name,
-                    email: p.email,
-                    mobile: p.mobile
-                }))
-            };
+            if (!formData) {
+                console.error("❌ No form data provided");
+                return false;
+            }
             
-            console.log("📊 Sending data to Google Sheets:", sheetsData);
+            // Ensure we have the correct boolean values for checkbox fields
+            formData.participants = Array.isArray(formData.participants) ? formData.participants.map(p => ({
+                name: p?.name || "N/A",
+                email: p?.email || "N/A",
+                mobile: p?.mobile || "N/A",
+                isSnuStudent: Boolean(p?.isSnuStudent),
+                accommodation: Boolean(p?.accommodation)
+            })) : [];
+            
+            // Log the transformed data before sending
+            console.log("📊 Sending data to Google Sheets:", JSON.stringify(formData));
             
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(sheetsData)
+                body: JSON.stringify(formData)
             });
             
             console.log("✅ Data submitted to Google Sheets successfully");
@@ -50,7 +52,7 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
     const handlePaymentSuccess = async (response, orderData) => {
         try {
             console.log("🔹 Payment successful, verifying with server...");
-    
+
             const verifyResponse = await fetch("/api/verify-razorpay-payment", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -59,52 +61,65 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_signature: response.razorpay_signature,
                     amount: orderData.amount,
+                    needsAccommodation: needsAccommodation,
+                    isSNUStudent: isSNUStudent
                 }),
             });
-    
+
             const verifyData = await verifyResponse.json();
             console.log("✅ Payment verification response:", verifyData);
-    
+
             if (verifyData.success) {
                 console.log("✅ Payment verified, sending confirmation email...");
                 
-                // Use the participants data passed as props
-                const participantsData = participants || [];
-                console.log("🔹 Participants data:", participantsData);
+                // Log the incoming participants data
+                console.log("Participants data before processing:", participants);
                 
-                // Submit to Google Sheets first
+                // Check if we have the correct boolean values for each participant
+                const participantsWithFlags = participants.map(p => ({
+                    ...p,
+                    isSnuStudent: Boolean(p.isSnuStudent),
+                    accommodation: Boolean(p.accommodation)
+                }));
+
+                // Log the transformed participants data
+                console.log("Participants data after boolean conversion:", participantsWithFlags);
+                
                 const googleSheetsData = {
                     orderId: response.razorpay_order_id,
                     paymentId: response.razorpay_payment_id,
                     amount: amount,
-                    participants: participantsData,
-                    paymentDate: new Date().toISOString()
+                    paymentDate: new Date().toISOString().split('T')[0],
+                    participants: participantsWithFlags,
+                    needsAccommodation: Boolean(needsAccommodation),
+                    isSNUStudent: Boolean(isSNUStudent)
                 };
                 
+                // Log the Google Sheets data before submission
+                console.log("Data being sent to Google Sheets:", JSON.stringify(googleSheetsData));
+                
                 await submitToGoogleSheets(googleSheetsData);
-    
+
                 const emailResponse = await fetch("/api/send-confirmation-email", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         orderId: response.razorpay_order_id,
                         items: items,
-                        participants: participantsData, 
-                        needsAccommodation: needsAccommodation,
+                        participants: participantsWithFlags, 
+                        needsAccommodation: Boolean(needsAccommodation),
+                        isSNUStudent: Boolean(isSNUStudent),
                         totalAmount: amount,
                     }),
                 });
-    
-                const emailData = await emailResponse.json();
-                console.log("📩 Email send response:", emailData);
-    
+
                 if (emailResponse.ok) {
                     console.log("✅ Confirmation email sent successfully");
                 } else {
-                    console.error("❌ Email failed:", emailData.error || emailData);
+                    console.error("❌ Email failed:", await emailResponse.json());
                 }
                 clearCart();
-                router.push(`/confirmation?orderId=${response.razorpay_order_id}&paymentId=${response.razorpay_payment_id}&amount=${(amount).toFixed(2)}`);
+                router.push(`/confirmation?orderId=${response.razorpay_order_id}&paymentId=${response.razorpay_payment_id}&amount=${amount.toFixed(2)}`);
             } else {
                 console.error("❌ Payment verification failed:", verifyData);
                 alert("Payment verification failed. Please contact support.");
@@ -120,20 +135,28 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
             alert("Invalid amount. Please check your cart.");
             return;
         }
+        
+        // Log the participants data before payment
+        console.log("Participants data before payment:", participants);
+        console.log("Needs Accommodation:", needsAccommodation);
+        console.log("Is SNU Student:", isSNUStudent);
 
         setLoading(true);
-
         try {
-            // Include participants data in the request to create the order
             const response = await fetch("/api/razorpay", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
                     amount, 
                     currency: "INR",
-                    participants: participants,
-                    items: items,
-                    needsAccommodation: needsAccommodation
+                    participants: participants.map(p => ({
+                        ...p,
+                        isSnuStudent: Boolean(p.isSnuStudent),
+                        accommodation: Boolean(p.accommodation)
+                    })),
+                    items,
+                    needsAccommodation: Boolean(needsAccommodation),
+                    isSNUStudent: Boolean(isSNUStudent)
                 }),
             });
 
@@ -153,9 +176,9 @@ const PayNowButton = ({ amount, clearCart, disabled, participants, items, needsA
                 order_id: orderData.id,
                 handler: (response) => handlePaymentSuccess(response, orderData),
                 prefill: {
-                    name: participants && participants.length > 0 ? participants[0].name : "Your Name",
-                    contact: participants && participants.length > 0 ? participants[0].mobile : "9999999999",
-                    email: participants && participants.length > 0 ? participants[0].email : "",
+                    name: participants?.[0]?.name || "Your Name",
+                    contact: participants?.[0]?.mobile || "9999999999",
+                    email: participants?.[0]?.email || "",
                 },
                 theme: { color: "#2563eb" },
             };

@@ -1,7 +1,5 @@
 "use client"
 
-"use client"
-
 import { useState, useEffect } from "react"
 import { useCart } from "../context/CartContext"
 import { useRouter } from "next/navigation"
@@ -39,15 +37,19 @@ export default function Cart() {
     return acc + (peoplePerPass * item.quantity)
   }, 0)
 
-  const participantData = participants.slice(0, totalPeople);
-
   // Initialize participant forms based on ticket type when items change
   useEffect(() => {
     // Reset participants array with empty objects based on total people
     if (totalPeople > 0) {
-      setParticipants(Array(totalPeople).fill().map(() => ({ name: "", mobile: "", email: "" })))
+      setParticipants(Array(totalPeople).fill().map(() => ({ 
+        name: "", 
+        mobile: "", 
+        email: "", 
+        isSnuStudent: false, 
+        accommodation: false 
+      })))
     } else {
-      setParticipants([{ name: "", mobile: "", email: "" }])
+      setParticipants([{ name: "", mobile: "", email: "", isSnuStudent: false, accommodation: false }])
     }
   }, [totalPeople])
 
@@ -57,6 +59,16 @@ export default function Cart() {
     updatedParticipants[index] = { ...updatedParticipants[index], [field]: value }
     setParticipants(updatedParticipants)
   }
+
+  // Update all participants when certain global checkboxes change
+  useEffect(() => {
+    const updatedParticipants = participants.map(participant => ({
+      ...participant,
+      isSnuStudent: isSNUStudent,
+      accommodation: needsAccommodation
+    }))
+    setParticipants(updatedParticipants)
+  }, [isSNUStudent, needsAccommodation])
 
   // Calculate additional charges
   const accommodationCharge = needsAccommodation ? 500 * totalPeople : 0
@@ -143,12 +155,16 @@ export default function Cart() {
         console.log("✅ Payment verification successful, sending confirmation email");
         
         try {
-          const participantData = participants.slice(0, totalPeople);
+          const participantData = participants.slice(0, totalPeople).map(p => ({
+            ...p,
+            isSnuStudent: isSNUStudent,
+            accommodation: needsAccommodation
+          }));
           
           console.log("🔹 Sending confirmation email with data:", {
             orderId: response.razorpay_order_id,
             items: checkoutItems,
-            participants: participantData.map(p => ({ name: p.name, email: p.email })),
+            participants: participantData,
             needsAccommodation,
             isSNUStudent,
             totalAmount: grandTotal
@@ -298,11 +314,15 @@ export default function Cart() {
 
             {/* SNU Student Question */}
             <div>
-            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex items-center space-x-2 mb-4">
                 <Checkbox
                   id="snuStudent"
                   checked={isSNUStudent}
-                  onCheckedChange={(checked) => setIsSNUStudent(checked === true)}
+                  onCheckedChange={(checked) => {
+                    // Log the actual checkbox state
+                    console.log("SNU Student checkbox changed to:", checked);
+                    setIsSNUStudent(checked === true);
+                  }}
                   className="text-blue-600 border-blue-400 focus:ring-blue-500 dark:text-blue-500 dark:border-blue-700 dark:focus:ring-blue-600"
                 />
                 <Label htmlFor="snuStudent" className="flex items-center cursor-pointer text-blue-800 dark:text-white font-medium">
@@ -318,7 +338,11 @@ export default function Cart() {
                   <Checkbox
                     id="accommodation"
                     checked={needsAccommodation}
-                    onCheckedChange={(checked) => setNeedsAccommodation(checked === true)}
+                    onCheckedChange={(checked) => {
+                      // Log the actual checkbox state
+                      console.log("Accommodation checkbox changed to:", checked);
+                      setNeedsAccommodation(checked === true);
+                    }}
                     className="text-blue-600 border-blue-400 focus:ring-blue-500 dark:text-blue-500 dark:border-blue-700 dark:focus:ring-blue-600"
                   />
                   <Label htmlFor="accommodation" className="flex items-center cursor-pointer text-blue-800 dark:text-white">
@@ -343,10 +367,9 @@ export default function Cart() {
               </div>
             )}
 
-
             {/* Participant Information */}
             <div>
-            <h3 className="text-lg font-semibold mb-4 flex items-center text-blue-700 dark:text-white">
+              <h3 className="text-lg font-semibold mb-4 flex items-center text-blue-700 dark:text-white">
                 <Users className="mr-2 h-5 w-5" />
                 Participant Information
                 <Badge variant="outline" className="ml-2 bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800">
@@ -464,14 +487,18 @@ export default function Cart() {
             Clear Cart
           </Button>
           
-          {/* Replace the old Button with the PayNowButton component and pass all required props */}
           <PayNowButton 
             amount={grandTotal} 
             clearCart={clearCart}
             disabled={!areAllFieldsFilled()}
-            participants={participants.slice(0, totalPeople)}
+            participants={participants.slice(0, totalPeople).map(p => ({
+              ...p,
+              isSnuStudent: isSNUStudent,
+              accommodation: needsAccommodation
+            }))}
             items={prepareCheckoutItems()}
             needsAccommodation={needsAccommodation}
+            isSNUStudent={isSNUStudent}
           />
         </CardFooter>
       </Card>
