@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 const speakers = [
     {
@@ -65,9 +66,11 @@ export default function Speakers() {
           ))}
         </div>
         <div className="flex justify-center pt-8">
+          <Link href="/soon">
           <Button variant="outline" size="lg" className="border-[#2662d9]/20 text-black dark:text-white dark:border-white/20 hover:bg-[#2662d9]/5 dark:hover:bg-white/5">
             View All Speakers
           </Button>
+          </Link>
         </div>
       </div>
     </section>
