@@ -11,7 +11,7 @@ const ticketsData = [
     {
       id: "single-pass", // Added unique ID for each ticket
       name: "Single Pass",
-      price: 250, // Changed to number for calculations
+      price: 299, // Changed to number for calculations
       features: [
         "Includes Access to a single person",
         "Access to all keynote sessions",
@@ -25,7 +25,7 @@ const ticketsData = [
     {
       id: "pair-pass", // Added unique ID for each ticket
       name: "Pair Pass",
-      price: 450, // Changed to number for calculations
+      price: 549, // Changed to number for calculations
       features: [
         "Includes Access to 2 people",
         "Access to all keynote sessions",
@@ -40,7 +40,7 @@ const ticketsData = [
     {
       id: "party-pass", // Added unique ID for each ticket
       name: "Party Pass",
-      price: 900, // Changed to number for calculations
+      price: 999, // Changed to number for calculations
       features: [
         "Includes Access to 4 people",
         "Access to all keynote sessions",

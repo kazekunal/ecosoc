@@ -1,5 +1,7 @@
 "use client"
 
+"use client"
+
 import { useState, useEffect } from "react"
 import { useCart } from "../context/CartContext"
 import { useRouter } from "next/navigation"
@@ -19,6 +21,7 @@ export default function Cart() {
   const { items, total, customerId, updateQuantity, removeItem, clearCart, isClient } = useCart()
   const [isLoading, setIsLoading] = useState(false)
   const [needsAccommodation, setNeedsAccommodation] = useState(false)
+  const [isSNUStudent, setIsSNUStudent] = useState(false)
   const [wantsPoker, setWantsPoker] = useState(false)
   const [participants, setParticipants] = useState([{ name: "", mobile: "", email: "" }])
   const router = useRouter()
@@ -60,6 +63,13 @@ export default function Cart() {
   const pokerCharge = wantsPoker ? 150 * totalPeople : 0
   const additionalCharges = accommodationCharge + pokerCharge
   const grandTotal = total + additionalCharges
+
+  // Set accommodation to false when SNU student status changes to yes
+  useEffect(() => {
+    if (isSNUStudent) {
+      setNeedsAccommodation(false)
+    }
+  }, [isSNUStudent])
 
   // Prepare checkout items
   const prepareCheckoutItems = () => {
@@ -123,6 +133,7 @@ export default function Cart() {
           items: checkoutItems,
           participants: participants.slice(0, totalPeople),
           needsAccommodation,
+          isSNUStudent,
         }),
       });
   
@@ -139,6 +150,7 @@ export default function Cart() {
             items: checkoutItems,
             participants: participantData.map(p => ({ name: p.name, email: p.email })),
             needsAccommodation,
+            isSNUStudent,
             totalAmount: grandTotal
           });
   
@@ -152,6 +164,7 @@ export default function Cart() {
               items: checkoutItems,
               participants: participantData,
               needsAccommodation,
+              isSNUStudent,
               totalAmount: grandTotal,
             }),
           });
@@ -283,35 +296,53 @@ export default function Cart() {
               </ScrollArea>
             </div>
 
-            {/* Accommodation Option */}
+            {/* SNU Student Question */}
             <div>
-              <div className="flex items-center space-x-2 mb-4">
+            <div className="flex items-center space-x-2 mb-4">
                 <Checkbox
-                  id="accommodation"
-                  checked={needsAccommodation}
-                  onCheckedChange={(checked) => setNeedsAccommodation(checked === true)}
+                  id="snuStudent"
+                  checked={isSNUStudent}
+                  onCheckedChange={(checked) => setIsSNUStudent(checked === true)}
                   className="text-blue-600 border-blue-400 focus:ring-blue-500 dark:text-blue-500 dark:border-blue-700 dark:focus:ring-blue-600"
                 />
-                <Label htmlFor="accommodation" className="flex items-center cursor-pointer text-blue-800 dark:text-white">
-                  <Hotel className="mr-2 h-4 w-4" />I need accommodation
+                <Label htmlFor="snuStudent" className="flex items-center cursor-pointer text-blue-800 dark:text-white font-medium">
+                  <User className="mr-2 h-4 w-4" />Are you an SNU Student?
                 </Label>
               </div>
-
-              {needsAccommodation && (
-                <div className="pl-6 border-l-2 border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-2 rounded mb-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <div className="flex items-center text-blue-800 dark:text-white">
-                      <Hotel className="mr-2 h-4 w-4" />
-                      <span>ACCOMMODATION (₹500 per person)</span>
-                    </div>
-                    <Badge className="bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-white dark:border-blue-800">
-                      {totalPeople > 1 ? `${totalPeople} × ₹500 = ` : ""}
-                      ₹{accommodationCharge.toFixed(2)}
-                    </Badge>
-                  </div>
-                </div>
-              )}
             </div>
+
+            {/* Accommodation Option - Only show if not SNU Student or make it required */}
+            {!isSNUStudent && (
+              <div>
+                <div className="flex items-center space-x-2 mb-4">
+                  <Checkbox
+                    id="accommodation"
+                    checked={needsAccommodation}
+                    onCheckedChange={(checked) => setNeedsAccommodation(checked === true)}
+                    className="text-blue-600 border-blue-400 focus:ring-blue-500 dark:text-blue-500 dark:border-blue-700 dark:focus:ring-blue-600"
+                  />
+                  <Label htmlFor="accommodation" className="flex items-center cursor-pointer text-blue-800 dark:text-white">
+                    <Hotel className="mr-2 h-4 w-4" />I need accommodation
+                  </Label>
+                </div>
+
+                {needsAccommodation && (
+                  <div className="pl-6 border-l-2 border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-2 rounded mb-4">
+                    <div className="flex justify-between items-center text-sm">
+                      <div className="flex items-center text-blue-800 dark:text-white">
+                        <Hotel className="mr-2 h-4 w-4" />
+                        <span>ACCOMMODATION (₹500 per person)</span>
+                      </div>
+                      <Badge className="bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-white dark:border-blue-800">
+                        {totalPeople > 1 ? `${totalPeople} × ₹500 = ` : ""}
+                        ₹{accommodationCharge.toFixed(2)}
+                      </Badge>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
 
             {/* Participant Information */}
             <div>
@@ -398,6 +429,13 @@ export default function Cart() {
                   <div className="flex justify-between text-sm">
                     <span className="text-blue-600 dark:text-white">Total Participants:</span>
                     <span className="text-blue-800 dark:text-white">{totalPeople}</span>
+                  </div>
+                )}
+
+                {isSNUStudent && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-blue-600 dark:text-white">SNU Student:</span>
+                    <span className="text-blue-800 dark:text-white">Yes</span>
                   </div>
                 )}
 

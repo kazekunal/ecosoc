@@ -63,7 +63,7 @@ export default function Experience() {
           <TabsContent value="games" className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {games.map((game, index) => (
-                <Link href={game.link}>
+                <Link key={index} href={game.link}>
                 <Card key={index} className="overflow-hidden">
                   <div className="aspect-video relative">
                     <Image

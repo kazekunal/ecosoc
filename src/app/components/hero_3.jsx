@@ -17,7 +17,7 @@ export default function Hero() {
           <h2 className="text-2xl sm:text-3xl font-medium text-[#2662d9] dark:text-white">
             Bridging Divides: Building an Inclusive Economy
           </h2>
-          <p className="max-w-[700px] text-[#6f6f7b] dark:text-[#a1a1b5] md:text-xl">
+          <p className="max-w-[700px] text-[#6f6f7b] dark:text-[#a1a1b5] md:text-xl ">
           Join thought leaders, policymakers, and industry experts at Iqtisadiyyat'25 to tackle India's most pressing economic challenges and shape a more inclusive future. Are you ready to rethink what’s possible?
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-6">
@@ -31,7 +31,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-2 text-sm text-black dark:text-white">
               <MapPin className="h-4 w-4 text-[#2662d9] dark:text-[#f5efeb]" />
-              <span>Shiv Nadar University, Greater Noida</span>
+              <span>G-Block, Shiv Nadar University, Greater Noida</span>
             </div>
           </div>
         </div>

@@ -2,34 +2,34 @@ import React from 'react';
 
 const TermsAndConditions = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold text-center mb-6">Terms & Conditions</h1>
-      <p className="text-sm text-gray-500 mb-6 text-center">Last updated on 24-02-2025</p>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md dark:bg-black">
+      <h1 className="text-3xl font-bold text-center mb-6 dark:text-white">Terms & Conditions</h1>
+      <p className="text-sm text-gray-500 mb-6 text-cente dark:text-white">Last updated on 24-02-2025</p>
       
       <div className="prose prose-lg max-w-none">
-        <p>
+        <p className='dark:text-white'>
           These Terms and Conditions, along with our Privacy Policy and any other applicable terms ("Terms"), 
           constitute a binding agreement between <strong>Mehar Kumar Verma</strong> ("Website Owner," "we," "us," or "our") 
           and you ("you" or "your") regarding your use of our website and participation in <strong>Iqtisadiyyat'25</strong> ("the Conclave"). 
           By accessing <strong>Iqtisadiyyat.in</strong> or purchasing tickets to the Conclave, you agree that you have read, 
           understood, and accepted these Terms.
         </p>
-        <p>
+        <p className='dark:text-white'>
           We reserve the right to modify these Terms at any time without prior notice. It is your responsibility to review them periodically.
         </p>
         
         <h2 className="text-2xl font-semibold mt-8 mb-4">1. Offerings of the Conclave</h2>
-        <p>
+        <p className='dark:text-white'>
           Iqtisadiyyat'25 is an economics conclave featuring:
         </p>
         <ul className="list-disc pl-6 mb-4">
-          <li className="mb-2">
+          <li className="mb-2 dark:text-white">
             <strong>Speaker Sessions</strong>: Keynote speeches, panel discussions, and interactive sessions with industry leaders, economists, and policymakers.
           </li>
-          <li className="mb-2">
+          <li className="mb-2 dark:text-white">
             <strong>Competitions</strong>: Academic and policy-related contests for students and professionals.
           </li>
-          <li className="mb-2">
+          <li className="mb-2 dark:text-white">
             <strong>Workshops and Networking Events</strong>: Opportunities for learning and engagement with experts.
           </li>
         </ul>
