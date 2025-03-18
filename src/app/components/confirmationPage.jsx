@@ -36,15 +36,61 @@ export default function ConfirmationPage() {
   // Render different views based on whether we have valid order details
   if (!hasValidOrder) {
     return (
-        <>
+      <>
         <Navbar/>
-      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+            <div className="p-8">
+              <div className="flex items-center justify-center mb-8">
+                <div className="bg-yellow-100 dark:bg-yellow-900 rounded-full p-3">
+                  <svg 
+                    className="h-8 w-8 text-yellow-600 dark:text-yellow-300" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth="2" 
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              
+              <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                No Order Found
+              </h2>
+              
+              <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
+                Kindly book a ticket to view your confirmation details.
+              </p>
+              
+              <div className="flex justify-center">
+                <Link href="/#tickets" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+                  Book Tickets
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Default view for successful orders
+  return (
+    <>
+      <Navbar/>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
           <div className="p-8">
             <div className="flex items-center justify-center mb-8">
-              <div className="bg-yellow-100 rounded-full p-3">
+              <div className="bg-green-100 dark:bg-green-900 rounded-full p-3">
                 <svg 
-                  className="h-8 w-8 text-yellow-600" 
+                  className="h-8 w-8 text-green-600 dark:text-green-300" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24" 
@@ -54,94 +100,47 @@ export default function ConfirmationPage() {
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
                     strokeWidth="2" 
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
               </div>
             </div>
             
-            <h2 className="text-center text-2xl font-bold text-gray-900 mb-6">
-              No Order Found
+            <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Payment Successful!
             </h2>
             
-            <p className="text-center text-gray-600 mb-8">
-              Kindly book a ticket to view your confirmation details.
+            <div className="border-t border-b border-gray-200 dark:border-gray-700 py-4 mb-6">
+              <div className="flex justify-between py-2">
+                <span className="text-gray-600 dark:text-gray-400">Order ID:</span>
+                <span className="font-medium text-gray-900 dark:text-white">{orderDetails.orderId}</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-gray-600 dark:text-gray-400">Payment ID:</span>
+                <span className="font-medium text-gray-900 dark:text-white">{orderDetails.paymentId}</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-gray-600 dark:text-gray-400">Amount Paid:</span>
+                <span className="font-medium text-gray-900 dark:text-white">₹{orderDetails.amount}</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-gray-600 dark:text-gray-400">Date & Time:</span>
+                <span className="font-medium text-gray-900 dark:text-white">{orderDetails.timestamp}</span>
+              </div>
+            </div>
+            
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
+              Thank you for your purchase! You will receive a confirmation email shortly.
             </p>
             
             <div className="flex justify-center">
-              <Link href="/#tickets" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
-                Book Tickets
+              <Link href="/" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+                Back to Home
               </Link>
             </div>
           </div>
         </div>
       </div>
-      </>
-    );
-  }
-
-  // Default view for successful orders
-  return (
-    <>
-    <Navbar/>
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-        <div className="p-8">
-          <div className="flex items-center justify-center mb-8">
-            <div className="bg-green-100 rounded-full p-3">
-              <svg 
-                className="h-8 w-8 text-green-600" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-6">
-            Payment Successful!
-          </h2>
-          
-          <div className="border-t border-b border-gray-200 py-4 mb-6">
-            <div className="flex justify-between py-2">
-              <span className="text-gray-600">Order ID:</span>
-              <span className="font-medium">{orderDetails.orderId}</span>
-            </div>
-            <div className="flex justify-between py-2">
-              <span className="text-gray-600">Payment ID:</span>
-              <span className="font-medium">{orderDetails.paymentId}</span>
-            </div>
-            <div className="flex justify-between py-2">
-              <span className="text-gray-600">Amount Paid:</span>
-              <span className="font-medium">₹{orderDetails.amount}</span>
-            </div>
-            <div className="flex justify-between py-2">
-              <span className="text-gray-600">Date & Time:</span>
-              <span className="font-medium">{orderDetails.timestamp}</span>
-            </div>
-          </div>
-          
-          <p className="text-center text-gray-600 mb-6">
-            Thank you for your purchase! You will receive a confirmation email shortly.
-          </p>
-          
-          <div className="flex justify-center">
-            <Link href="/" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
-              Back to Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
     </>
   );
 }
