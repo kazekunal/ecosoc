@@ -96,7 +96,7 @@ export default function Tickets() {
             >
               {ticket.featured && (
                 <div className="bg-[#2662d9] text-[#2662d9]-foreground text-center py-1 text-sm font-medium">
-                  Most Popular
+                  Early Bird offers!! <br/>Get your tickets now.
                 </div>
               )}
               <CardContent className="p-6 pt-8 text-center">
