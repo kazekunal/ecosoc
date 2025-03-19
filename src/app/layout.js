@@ -2,6 +2,7 @@ import ClientRootLayout from "./components/clientrootlayout";
 import GlobalLoading from "./components/globalload";
 import { Suspense } from 'react';
 import Loading from "./components/globalload";
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: "IQTISADIYYAT | Economics Society of Shiv Nadar University",
@@ -56,7 +57,10 @@ export default function RootLayout({ children }) {
       </head>
       <body>
       <Suspense fallback={<Loading/>}>
-        <ClientRootLayout>{children}</ClientRootLayout>
+        <ClientRootLayout>
+          {children}
+          <Analytics />
+        </ClientRootLayout>
         </Suspense>
       </body>
     </html>
