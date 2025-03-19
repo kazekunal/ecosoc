@@ -71,7 +71,7 @@ export default function Cart() {
   }, [isSNUStudent, needsAccommodation])
 
   // Calculate additional charges
-  const accommodationCharge = needsAccommodation ? 500 * totalPeople : 0
+  const accommodationCharge = needsAccommodation ? 250 * totalPeople : 0
   const pokerCharge = wantsPoker ? 150 * totalPeople : 0
   const additionalCharges = accommodationCharge + pokerCharge
   const grandTotal = total + additionalCharges
@@ -98,7 +98,7 @@ export default function Cart() {
         id: "accommodation",
         name: "ACCOMMODATION",
         quantity: totalPeople,
-        price: 500,
+        price: 250,
       })
     }
 
@@ -346,7 +346,7 @@ export default function Cart() {
                     className="text-blue-600 border-blue-400 focus:ring-blue-500 dark:text-blue-500 dark:border-blue-700 dark:focus:ring-blue-600"
                   />
                   <Label htmlFor="accommodation" className="flex items-center cursor-pointer text-blue-800 dark:text-white">
-                    <Hotel className="mr-2 h-4 w-4" />I need accommodation
+                    <Hotel className="mr-2 h-4 w-4" />I need accommodation 
                   </Label>
                 </div>
 
@@ -355,10 +355,10 @@ export default function Cart() {
                     <div className="flex justify-between items-center text-sm">
                       <div className="flex items-center text-blue-800 dark:text-white">
                         <Hotel className="mr-2 h-4 w-4" />
-                        <span>ACCOMMODATION (₹500 per person)</span>
+                        <span>ACCOMMODATION (includes breakfast and dinner) (250 per person)</span>
                       </div>
                       <Badge className="bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/50 dark:text-white dark:border-blue-800">
-                        {totalPeople > 1 ? `${totalPeople} × ₹500 = ` : ""}
+                        {totalPeople > 1 ? `${totalPeople} × ₹250 = ` : ""}
                         ₹{accommodationCharge.toFixed(2)}
                       </Badge>
                     </div>
@@ -464,7 +464,7 @@ export default function Cart() {
 
                 {accommodationCharge > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-blue-600 dark:text-white">Accommodation ({totalPeople} × ₹500):</span>
+                    <span className="text-blue-600 dark:text-white">Accommodation ({totalPeople} × ₹250):</span>
                     <span className="text-blue-800 dark:text-white">₹{accommodationCharge.toFixed(2)}</span>
                   </div>
                 )}
