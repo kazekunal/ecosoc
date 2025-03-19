@@ -29,12 +29,12 @@ const games = [
   const foodItems = [
     {
       name: "Financial Frontlines",
-      description: "A selection of dishes featuring ingredients from major trade routes throughout history.",
+      description: "A multi-round simulation where participants act as CEOs, using financial literacy, investment skills, and strategy to manage corporate finances in real-world market conditions.",
       image: "/placeholder.svg?height=200&width=200",
     },
     {
       name: "Tax Me Please",
-      description: "A spicy dish that gets progressively more intense, just like inflation!",
+      description: "In a ruthless capitalist world of five nations, each country must strategize to squeeze the most tax revenue from its citizens. With fixed tax rates auctioned by the IMF, the only rule is simple: exploit smartly, earn the most.",
       image: "/placeholder.svg?height=200&width=200",
     },
   ]
@@ -89,7 +89,7 @@ export default function Experience() {
             </div>
           </TabsContent>
           <TabsContent value="food" className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {foodItems.map((item, index) => (
                 <Card key={index} className="overflow-hidden">
                   <div className="aspect-square relative">
