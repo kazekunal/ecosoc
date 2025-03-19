@@ -122,10 +122,10 @@ export default function Cart() {
     
     // Check if all participant fields are filled
     return participants.slice(0, totalPeople).every(participant => 
-      participant.name.trim() !== "" && 
-      participant.mobile.trim() !== "" && 
-      participant.email.trim() !== ""
-    )
+      participant.name?.trim() !== "" && 
+      participant.mobile?.trim() !== "" && 
+      participant.email?.trim() !== ""
+    );
   }
 
   // Add this function before handleCheckout
