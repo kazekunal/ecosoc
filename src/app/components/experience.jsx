@@ -30,12 +30,12 @@ const games = [
     {
       name: "Financial Frontlines",
       description: "A multi-round simulation where participants act as CEOs, using financial literacy, investment skills, and strategy to manage corporate finances in real-world market conditions.",
-      image: "/placeholder.svg?height=200&width=200",
+      image: "/1.png",
     },
     {
       name: "Tax Me Please",
       description: "In a ruthless capitalist world of five nations, each country must strategize to squeeze the most tax revenue from its citizens. With fixed tax rates auctioned by the IMF, the only rule is simple: exploit smartly, earn the most.",
-      image: "/placeholder.svg?height=200&width=200",
+      image: "/2.png",
     },
   ]
 
