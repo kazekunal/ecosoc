@@ -33,7 +33,7 @@ export default function Cart() {
 
   // Calculate total number of people based on the tickets in cart
   const totalPeople = items.reduce((acc, item) => {
-    const peoplePerPass = passQuantities[item.name] || 1
+    const peoplePerPass = passQuantities[item.name]
     return acc + (peoplePerPass * item.quantity)
   }, 0)
 
@@ -378,67 +378,89 @@ export default function Cart() {
               </h3>
 
               <Accordion type="single" collapsible className="w-full">
-                {participants.slice(0, totalPeople).map((participant, index) => (
-                  <AccordionItem key={index} value={`participant-${index}`} className="border-blue-200 dark:border-blue-800">
-                    <AccordionTrigger className="hover:bg-blue-50 dark:hover:bg-blue-900/30 px-4 rounded-md">
-                      <div className="flex items-center text-left">
-                        <User className="mr-2 h-4 w-4" />
-                        <span className="font-medium text-gray-800 dark:text-gray-200">
-                          {participant.name ? participant.name : `Participant ${index + 1}`}
-                        </span>
-                        {!participant.name || !participant.mobile || !participant.email ? (<Badge variant="outline" className="ml-2 bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800">
-                            Incomplete
-                          </Badge>
-                        ) : (
-                          <Badge variant="outline" className="ml-2 bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800">
-                            Complete
-                          </Badge>
-                        )}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-md">
-                        <div className="grid gap-2">
-                          <Label htmlFor={`name-${index}`} className="text-blue-800 dark:text-blue-300">Full Name</Label>
-                          <Input
-                            id={`name-${index}`}
-                            placeholder="Enter full name"
-                            value={participant.name}
-                            onChange={(e) => updateParticipant(index, "name", e.target.value)}
-                            required
-                            className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                          />
-                        </div>
+  {Array.from({ length: totalPeople }).map((_, index) => {
+    const participant = participants[index] || {}; // Ensure there's an object even if missing
 
-                        <div className="grid gap-2">
-                          <Label htmlFor={`mobile-${index}`} className="text-blue-800 dark:text-blue-300">Mobile Number</Label>
-                          <Input
-                            id={`mobile-${index}`}
-                            placeholder="Enter mobile number"
-                            value={participant.mobile}
-                            onChange={(e) => updateParticipant(index, "mobile", e.target.value)}
-                            required
-                            className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                          />
-                        </div>
+    return (
+      <AccordionItem
+        key={index}
+        value={`participant-${index}`}
+        className="border-blue-200 dark:border-blue-800"
+      >
+        <AccordionTrigger className="hover:bg-blue-50 dark:hover:bg-blue-900/30 px-4 rounded-md">
+          <div className="flex items-center text-left">
+            <User className="mr-2 h-4 w-4" />
+            <span className="font-medium text-gray-800 dark:text-gray-200">
+              {participant.name ? participant.name : `Participant ${index + 1}`}
+            </span>
+            {!participant.name || !participant.mobile || !participant.email ? (
+              <Badge
+                variant="outline"
+                className="ml-2 bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800"
+              >
+                Incomplete
+              </Badge>
+            ) : (
+              <Badge
+                variant="outline"
+                className="ml-2 bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800"
+              >
+                Complete
+              </Badge>
+            )}
+          </div>
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-md">
+            <div className="grid gap-2">
+              <Label htmlFor={`name-${index}`} className="text-blue-800 dark:text-blue-300">
+                Full Name
+              </Label>
+              <Input
+                id={`name-${index}`}
+                placeholder="Enter full name"
+                value={participant.name || ""}
+                onChange={(e) => updateParticipant(index, "name", e.target.value)}
+                required
+                className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              />
+            </div>
 
-                        <div className="grid gap-2">
-                          <Label htmlFor={`email-${index}`} className="text-blue-800 dark:text-blue-300">Email Address (for ticket delivery)</Label>
-                          <Input
-                            id={`email-${index}`}
-                            placeholder="Enter email address"
-                            value={participant.email}
-                            type="email"
-                            onChange={(e) => updateParticipant(index, "email", e.target.value)}
-                            required
-                            className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                          />
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+            <div className="grid gap-2">
+              <Label htmlFor={`mobile-${index}`} className="text-blue-800 dark:text-blue-300">
+                Mobile Number
+              </Label>
+              <Input
+                id={`mobile-${index}`}
+                placeholder="Enter mobile number"
+                value={participant.mobile || ""}
+                onChange={(e) => updateParticipant(index, "mobile", e.target.value)}
+                required
+                className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor={`email-${index}`} className="text-blue-800 dark:text-blue-300">
+                Email Address (for ticket delivery)
+              </Label>
+              <Input
+                id={`email-${index}`}
+                placeholder="Enter email address"
+                value={participant.email || ""}
+                type="email"
+                onChange={(e) => updateParticipant(index, "email", e.target.value)}
+                required
+                className="border-blue-200 focus:border-blue-400 focus:ring-blue-400 dark:border-blue-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    );
+  })}
+</Accordion>
+
             </div>
           {/* Summary */}
           <div className="mt-8 pt-4 border-t border-blue-200 dark:border-blue-800">

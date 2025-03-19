@@ -1,4 +1,7 @@
 import ClientRootLayout from "./components/clientrootlayout";
+import GlobalLoading from "./components/globalload";
+import { Suspense } from 'react';
+import Loading from "./components/globalload";
 
 export const metadata = {
   title: "IQTISADIYYAT | Economics Society of Shiv Nadar University",
@@ -52,7 +55,9 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
+      <Suspense fallback={<Loading/>}>
         <ClientRootLayout>{children}</ClientRootLayout>
+        </Suspense>
       </body>
     </html>
   );
