@@ -143,25 +143,25 @@ export default function Navbar() {
                 Home
               </Link>
               <Link
-                href="/About"
+                href="#speakers"
                 className={`px-4 py-3 text-sm hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"}`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                About
+                Speakers
               </Link>
               <Link
-                href="/schedule"
+                href="#schedule"
                 className={`px-4 py-3 text-sm hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Schedule
               </Link>
               <Link
-                href="/Speakers"
+                href="#experience"
                 className={`px-4 py-3 text-sm hover:${theme === "dark" ? "bg-zinc-800" : "bg-gray-100"}`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Speakers
+                Games
               </Link>
               
               {/* Bottom Icons Section */}
