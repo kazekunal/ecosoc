@@ -117,9 +117,10 @@ export default function Footer() {
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
           <Link href="/tnc">
-          <p>© 2024 IQTISADIYYAT. All rights reserved. The Economics
+          <p className="pb-2">© 2024 IQTISADIYYAT. All rights reserved. The Economics
             Society, Shiv Nadar University.</p>
             </Link>
+            <p>Designed and Developed by <Link className="b-2 text-black dark:text-white" href="https://kunalpassan.vercel.app/"> Kunal Passan</Link></p>
         </div>
       </div>
     </footer>
