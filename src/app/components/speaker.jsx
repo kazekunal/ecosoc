@@ -54,7 +54,7 @@ const speakers = [
     title: "Former Chairman, Punjab & Sind Bank",
     bio: "Banking expert focused on financial inclusion, public policy, and innovative strategies to expand economic opportunities for underserved communities.",
     topic: "Banking the Unbanked: India's Financial Future",
-    image: "/char.png"
+    image: "/charun.jpg"
   },
   {
     name: "Dr. Chandan Jha",
@@ -71,11 +71,11 @@ const speakers = [
     image: "/gaur.jpeg"
   },
   {
-    name: "Mr. Veenu Jaichand",
+    name: "Mrs. Veenu Jaichand",
     title: "Partner, Performance Improvement- Skill Development in Africa, India & Middle East (AIM) Advisory Services",
-    bio: "As a valued Partner at AIM Advisory Services, he fosters transformative growth and capacity building in Africa, India, and the Middle East.",
+    bio: "As a valued Partner at AIM Advisory Services, she fosters transformative growth and capacity building in Africa, India, and the Middle East.",
     topic: "Strategies for Performance Improvement in Emerging Markets",
-    image: "/veenu_pp.jpg"
+    image: "/Veenu_pp.jpg"
   }
 ];
 
