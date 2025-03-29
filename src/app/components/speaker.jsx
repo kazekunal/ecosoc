@@ -16,7 +16,7 @@ import Autoplay from "embla-carousel-autoplay";
 const speakers = [
   {
     name: "Dr T.C.A Anant",
-    title: "Former Chief Statistician of India",
+    title: "Former Chief Statistician of India, ex-Secretary, Ministry of Statistics",
     bio: "Leading expert in economic statistics and policy analysis, driving data-informed decision-making in India's economic landscape.",
     topic: "Bridging the Urban-Rural Divide",
     image: "/tca.png"
@@ -25,7 +25,7 @@ const speakers = [
     name: "Dr Santosh K Mehrotra",
     title: "Research Fellow – IZA Institute",
     bio: "Internationally recognized development economist specializing in poverty reduction, labor markets, and inclusive growth strategies.",
-    topic: "Global Poverty Strategies",
+    topic: "India's Growth Paradox: Booming Economy, Lagging Employment",
     image: "/sant.png"
   },
   {
@@ -72,7 +72,7 @@ const speakers = [
   },
   {
     name: "Mrs. Veenu Jaichand",
-    title: "Partner, Performance Improvement- Skill Development in Africa, India & Middle East (AIM) Advisory Services",
+    title: "Partner, Ernst & Young",
     bio: "As a valued Partner at AIM Advisory Services, she fosters transformative growth and capacity building in Africa, India, and the Middle East.",
     topic: "Strategies for Performance Improvement in Emerging Markets",
     image: "/Veenu_pp.jpg"
