@@ -334,7 +334,7 @@ export default function Cart() {
             {/* Accommodation Option - Only show if not SNU Student or make it required */}
             {!isSNUStudent && (
               <div>
-                <div className="flex items-center space-x-2 mb-4">
+                {/* <div className="flex items-center space-x-2 mb-4">
                   <Checkbox
                     id="accommodation"
                     checked={needsAccommodation}
@@ -348,7 +348,7 @@ export default function Cart() {
                   <Label htmlFor="accommodation" className="flex items-center cursor-pointer text-blue-800 dark:text-white">
                     <Hotel className="mr-2 h-4 w-4" />I need accommodation 
                   </Label>
-                </div>
+                </div> */}
 
                 {needsAccommodation && (
                   <div className="pl-6 border-l-2 border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-2 rounded mb-4">
@@ -484,12 +484,12 @@ export default function Cart() {
                   </div>
                 )}
 
-                {accommodationCharge > 0 && (
+                {/* {accommodationCharge > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-blue-600 dark:text-white">Accommodation ({totalPeople} × ₹250):</span>
                     <span className="text-blue-800 dark:text-white">₹{accommodationCharge.toFixed(2)}</span>
                   </div>
-                )}
+                )} */}
 
                 <div className="flex justify-between text-lg font-bold pt-2 border-t border-blue-200 dark:border-blue-800">
                   <span className="text-blue-800 dark:text-white">Total:</span>
