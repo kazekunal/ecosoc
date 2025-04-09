@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Iqtisadiyyat – The flagship economics conclave by The Economics Society, Shiv Nadar University
 
-## Getting Started
+### Welcome to Iqtisadiyyat, designed to simplify event ticketing and provide a seamless experience for our users, the platform serves as a one-stop destination for exploring and purchasing tickets for the flagship Economics fest and its associated events.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# 🚀 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Frontend: Next.js + Tailwind CSS
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Backend: Node.js
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Email Services: Resend
 
-## Learn More
+- Payments: Razorpay
 
-To learn more about Next.js, take a look at the following resources:
+- Data Storage: Google Sheets API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Hosting: Vercel (with domain integration)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Analytics: Vercel Analytics for real-time visitor insights
 
-## Deploy on Vercel
+# 💼 Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 🔐 Secure Payments: Users can securely purchase event tickets using Razorpay, with a smooth and intuitive payment flow.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 📩 Automated Ticketing: Once a payment is successful, the customer is redirected to a payment confirmation page. Simultaneously, a ticket is emailed to their inbox using Resend.
+
+- 📊 Live Analytics: Real-time user activity tracking via Vercel Analytics helps us monitor peak traffic, especially during promotions by our PME (Publicity & Media Executives).
+
+- 📁 Centralized Data Logging: All customer and ticket data is automatically logged in a connected Google Sheet, allowing the society members to track ticket sales effortlessly.
+
+# 🏷️ Why "Iqtisadiyyat"?
+
+### "Iqtisadiyyat" stands for Economics in Arabic – a nod to the global and intellectual spirit of the fest. This platform is not just a sales portal, but a full-fledged ticketing ecosystem along with information about the speakers and their domains.
+
+
+
+
+
+
+
+
+
+
